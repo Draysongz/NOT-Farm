@@ -20,6 +20,8 @@ export const useFarmFactory = () => {
 
   const [totalValueLocked, setTotalValueLocked] = useState(0);
   const [farmWalletStatus, setFarmWalletStatus] = useState(0);
+  const sleep = async (time: number) =>
+    new Promise((resolve) => setTimeout(resolve, time));
   // first thing I need to do to be able to stake is
   // initialize the contract.
 
@@ -32,16 +34,6 @@ export const useFarmFactory = () => {
     return openFarmFactory(client);
   }, [client]);
 
-  // to initialize contract, I need the jetton address of the user Farm contract
-  const jettonAddr = useAsyncInitialze(async () => {
-    if (!userAddress) return;
-    try {
-      return await getUserJettonAddr(client, Address.parse(userAddress));
-    } catch (err) {
-      console.log(err);
-    }
-  }, [client, userAddress]);
-
   // get user Farm wallet address
   const fmWalletAddr = useAsyncInitialze(async () => {
     if (!userAddress) return;
@@ -52,10 +44,20 @@ export const useFarmFactory = () => {
     }
   }, [client, userAddress]);
 
+  // to initialize contract, I need the jetton address of the user Farm contract
+  const jettonAddr = useAsyncInitialze(async () => {
+    if (!fmWalletAddr) return;
+    try {
+      return await getUserJettonAddr(client, fmWalletAddr);
+    } catch (err) {
+      console.log(err);
+    }
+  }, [client, fmWalletAddr]);
+
   // open farm contract from farm wallet address
   const farmWallet = useSyncInitialize(() => {
     if (!fmWalletAddr) return;
-    return openFarmWallet(client, fmWalletAddr.farmWalletAddress);
+    return openFarmWallet(client, fmWalletAddr);
   }, [client, fmWalletAddr]);
 
   useEffect(() => {
@@ -65,6 +67,7 @@ export const useFarmFactory = () => {
       try {
         const { status } = await farmWallet.getFarmWalletData();
         setFarmWalletStatus(status);
+        await sleep(5000); // 5 secs
       } catch (err) {
         console.log(err);
       }
@@ -88,12 +91,10 @@ export const useFarmFactory = () => {
     totalValueLocked,
     farmWalletStatus,
 
-    initializeFarmContract: async () =>
-      await initializeUserFarmContract(
-        farmFactory,
-        sender,
-        jettonAddr.jettonWalletAddr
-      ),
+    initializeFarmContract: async () => {
+      console.log(jettonAddr.toString());
+      return await initializeUserFarmContract(farmFactory, sender, jettonAddr);
+    },
   };
 };
 

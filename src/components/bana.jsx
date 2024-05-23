@@ -63,11 +63,10 @@ export default function Bana() {
     compound,
     claimRewards,
   } = useFarmWallet();
-  const { connected, userAddress } = useTonConnect();
+  const { connected, userAddress: walletAddress } = useTonConnect();
   const client = useTonClient();
   const [referralLink, setReferralLink] = useState("");
   const [userId, setUserId] = useState("");
-  const walletAddress = userAddress;
   const router = useRouter();
   const { code } = router.query;
 
@@ -321,23 +320,24 @@ export default function Bana() {
       >
         <Stack align={"center"}>
           <TonConnectButton />
-          <Box background={'black'} borderRadius={'250px'}>
+          <Box background={"black"} borderRadius={"250px"}>
             <Image
-            src={logo}
-            placeholder="blur"
-            alt="logo"
-            quality={100}
-            sizes="10vw"
-          />
+              src={logo}
+              placeholder="blur"
+              alt="logo"
+              quality={100}
+              sizes="10vw"
+            />
           </Box>
-          
         </Stack>
         <Divider />
         <Stack gap={2}>
           <Text textAlign={"center"}>
             <b>
-         Earn Rewards with NOT Staking:
-This program offers high daily returns and low fees for staking your NOT tokens. You can earn up to 8% daily interest and a referral bonus of up to 5% (more details available).
+              Earn Rewards with NOT Staking: This program offers high daily
+              returns and low fees for staking your NOT tokens. You can earn up
+              to 8% daily interest and a referral bonus of up to 5% (more
+              details available).
             </b>
           </Text>
           <Stack
@@ -346,21 +346,26 @@ This program offers high daily returns and low fees for staking your NOT tokens.
             justify="normal"
             px={{ base: 5, md: 20 }}
           >
-            <Heading textAlign={'center'}>How it Works </Heading>
+            <Heading textAlign={"center"}>How it Works </Heading>
             <Text>
-              <b> #1 - STAKE NOT</b>:  Deposit your NOT tokens to start earning rewards.
+              <b> #1 - STAKE NOT</b>: Deposit your NOT tokens to start earning
+              rewards.
             </Text>
             <Text>
-              <b>#2 - COMPOUND</b>:  To maximize your earnings, reinvest your rewards back into NOT automatically by clicking the &ldquo;COMPOUND&rdquo; button.
- 
-Maximizing Your Earnings:
+              <b>#2 - COMPOUND</b>: To maximize your earnings, reinvest your
+              rewards back into NOT automatically by clicking the
+              &ldquo;COMPOUND&rdquo; button. Maximizing Your Earnings:
             </Text>
             <Text>
-              <b>#3 - CLAIM REWARDS</b>: Transfer your accumulated rewards directly to your wallet.
+              <b>#3 - CLAIM REWARDS</b>: Transfer your accumulated rewards
+              directly to your wallet.
             </Text>
           </Stack>
           <Text textAlign={"center"}>
-           The key to earning more rewards is the amount of NOT you stake and how often you compound your rewards. The more NOT you hold and the more frequently you reinvest your earnings, the greater your potential returns
+            The key to earning more rewards is the amount of NOT you stake and
+            how often you compound your rewards. The more NOT you hold and the
+            more frequently you reinvest your earnings, the greater your
+            potential returns
           </Text>
         </Stack>
         <Box mt={10}>

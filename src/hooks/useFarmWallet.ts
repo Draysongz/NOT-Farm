@@ -20,7 +20,8 @@ export const useFarmWallet = () => {
   const [userStakedBalance, setUserStakedBalance] = useState(0);
   const [userWalletBalance, setUserWalletBalance] = useState(0);
   const [currRewards, setCurrRewards] = useState(0);
-
+  const sleep = async (time: number) =>
+    new Promise((resolve) => setTimeout(resolve, time));
   // stake, compound, claim rewards, unstake, get staked balance, get rewards
 
   // I need the farm wallet address gotten from the user address
@@ -39,7 +40,7 @@ export const useFarmWallet = () => {
   const fmJettonWalletAddr = useAsyncInitialze(async () => {
     if (!fmWalletAddr) return;
     try {
-      return await getUserJettonAddr(client, fmWalletAddr.farmWalletAddress);
+      return await getUserJettonAddr(client, fmWalletAddr);
     } catch (err) {
       console.log(err);
     }
@@ -48,7 +49,7 @@ export const useFarmWallet = () => {
   // open farm contract from farm wallet address
   const farmWallet = useSyncInitialize(() => {
     if (!fmWalletAddr) return;
-    return openFarmWallet(client, fmWalletAddr.farmWalletAddress);
+    return openFarmWallet(client, fmWalletAddr);
   }, [fmWalletAddr, client]);
 
   // get user jetton wallet address
@@ -73,7 +74,7 @@ export const useFarmWallet = () => {
   // open jetton wallet from user jetton wallet address
   const jettonWallet = useSyncInitialize(() => {
     if (!userJettonWalletAddr) return;
-    return openJettonWallet(client, userJettonWalletAddr.jettonWalletAddr);
+    return openJettonWallet(client, userJettonWalletAddr);
   }, [client, userJettonWalletAddr]);
 
   useEffect(() => {
@@ -92,14 +93,7 @@ export const useFarmWallet = () => {
         console.log(err);
       }
     })();
-  }, [
-    userStakedBalance,
-    currRewards,
-    userWalletBalance,
-    farmWallet,
-    client,
-    jettonWallet,
-  ]);
+  }, [client, farmWallet, jettonWallet]);
 
   return {
     userStakedBalance,
@@ -109,7 +103,7 @@ export const useFarmWallet = () => {
     stake: async (jettonAmount: number) =>
       await sendStake(
         jettonWallet,
-        fmWalletAddr.farmWalletAddress,
+        fmWalletAddr,
         Address.parse(userAddress),
         sender,
         jettonAmount
@@ -118,19 +112,10 @@ export const useFarmWallet = () => {
     compound: async () => await sendCompound(farmWallet, sender),
 
     claimRewards: async () =>
-      await sendClaimRewards(
-        farmWallet,
-        factoryJettonWalletAddr.jettonWalletAddr,
-        sender
-      ),
+      await sendClaimRewards(farmWallet, factoryJettonWalletAddr, sender),
 
     unstake: async (jettonAmount: number) =>
-      await sendUnstake(
-        farmWallet,
-        fmJettonWalletAddr.jettonWalletAddr,
-        sender,
-        jettonAmount
-      ),
+      await sendUnstake(farmWallet, fmJettonWalletAddr, sender, jettonAmount),
   };
 };
 
