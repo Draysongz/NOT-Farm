@@ -419,12 +419,11 @@ export default function Bana() {
                       ? initializeFarmContract()
                       : stake(amount)
                   }
+                
                 >
-                  {farmWalletStatus == 0 ? "initialize" : "Stake NOT"}
+                  {farmWalletStatus == 0 ? "initialize" : "Mine NOT"}
                 </Button>
-                <Button m={2} onClick={() => unstake(amount)}>
-                  Unstake
-                </Button>
+               
                 <Divider />
                 <TableContainer p={2} borderRadius={"lg"}>
                   <Table variant="simple">
