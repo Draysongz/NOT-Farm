@@ -25,7 +25,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import logo from "../images/logobanana.png";
+import logo from "../../public/logo.png";
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useEffect } from "react";
 import { useTonClient } from "@/hooks/useTonClient";
@@ -321,21 +321,23 @@ export default function Bana() {
       >
         <Stack align={"center"}>
           <TonConnectButton />
-          <Image
+          <Box background={'black'} borderRadius={'250px'}>
+            <Image
             src={logo}
             placeholder="blur"
             alt="logo"
             quality={100}
-            sizes="50vw"
+            sizes="10vw"
           />
+          </Box>
+          
         </Stack>
         <Divider />
         <Stack gap={2}>
           <Text textAlign={"center"}>
             <b>
-              The TON reward pool with the richest daily return and lowest dev
-              fee, daily income of up to 8%, and a referral bonus of up to 12%
-              (documentation)
+         Earn Rewards with NOT Staking:
+This program offers high daily returns and low fees for staking your NOT tokens. You can earn up to 8% daily interest and a referral bonus of up to 5% (more details available).
             </b>
           </Text>
           <Stack
@@ -344,24 +346,21 @@ export default function Bana() {
             justify="normal"
             px={{ base: 5, md: 20 }}
           >
+            <Heading textAlign={'center'}>How it Works </Heading>
             <Text>
-              <b> #1 - STAKE NOT</b>: Start by staking NOT to earn TON
+              <b> #1 - STAKE NOT</b>:  Deposit your NOT tokens to start earning rewards.
             </Text>
             <Text>
-              <b>#2 - COMPOUND</b>: To maximize your earnings, click on the
-              &ldquo;COMPOUND&rdquo; button. This action will automatically
-              reinvest your rewards back into Tonzi.
+              <b>#2 - COMPOUND</b>:  To maximize your earnings, reinvest your rewards back into NOT automatically by clicking the &ldquo;COMPOUND&rdquo; button.
+ 
+Maximizing Your Earnings:
             </Text>
             <Text>
-              <b>#3 - CLAIM REWARDS</b>: This will transfer your accumulated SOL
-              rewards directly into your wallet
+              <b>#3 - CLAIM REWARDS</b>: Transfer your accumulated rewards directly to your wallet.
             </Text>
           </Stack>
           <Text textAlign={"center"}>
-            The key to maximizing your rewards lies in the quantity of Tonzis
-            you hold and how frequently you compound them. The more Tonzis you
-            accumulate and the more often you reinvest your rewards, the greater
-            the potential for earning more rewards
+           The key to earning more rewards is the amount of NOT you stake and how often you compound your rewards. The more NOT you hold and the more frequently you reinvest your earnings, the greater your potential returns
           </Text>
         </Stack>
         <Box mt={10}>
@@ -487,7 +486,7 @@ export default function Bana() {
                     : "Generate Referal Link"}
                 </Button>
                 <Text>
-                  Earn 12% of the SOL used to compound from anyone who uses your
+                  Earn 5% of the NOT used to compound from anyone who uses your
                   referral link
                 </Text>
               </CardBody>
