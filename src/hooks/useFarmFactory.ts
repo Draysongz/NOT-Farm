@@ -61,7 +61,7 @@ export const useFarmFactory = () => {
   }, [client, fmWalletAddr]);
 
   useEffect(() => {
-    (async () => {
+    const getStatus = async () => {
       if (!client) return;
       if (!farmWallet) return;
       try {
@@ -71,8 +71,10 @@ export const useFarmFactory = () => {
       } catch (err) {
         console.log(err);
       }
-    })();
-  }, [farmWallet, client, farmWalletStatus]);
+      getStatus();
+    };
+    getStatus();
+  }, [farmWallet, client]);
 
   useEffect(() => {
     (async () => {
