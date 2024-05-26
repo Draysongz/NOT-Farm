@@ -20,17 +20,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Stack
-          bg={`url(${wp.src})`}
-          bgSize="cover" // Covers the entire box area
-          bgPos="center" // Centers the image within the box
-          width="auto"
-          height="auto"
-          align={"center"}
-          justify={"center"}
-        >
+       
           <Bana />
-        </Stack>
+        
       </main>
     </>
   );

@@ -23,6 +23,7 @@ import {
   useColorModeValue,
   Input,
   Flex,
+  HStack
 } from "@chakra-ui/react";
 import Image from "next/image";
 import logo from "../../public/logo.png";
@@ -33,6 +34,7 @@ import { useTonConnect } from "@/hooks/useTonConnect";
 import { app, db } from "../../Firebase/firebase";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import Sidebar from "./Sidebar";
 import {
   collection,
   query,
@@ -51,6 +53,7 @@ import Cookies from "js-cookie";
 import { useFarmFactory } from "@/hooks/useFarmFactory";
 import { useFarmWallet } from "@/hooks/useFarmWallet";
 import { fromNano } from "@ton/core";
+import Dashboard from "./Dashboard";
 export default function Bana() {
   const { initializeFarmContract, totalValueLocked, farmWalletStatus } =
     useFarmFactory();
@@ -306,198 +309,13 @@ export default function Bana() {
 
   return (
     <>
-      <Stack
-        m={10}
-        maxH={"auto"}
-        maxW={{ base: "md", md: "2xl" }}
-        bg={"grey"}
-        boxShadow="0 0 10px 5px rgba(48, 18, 135, 0.5)"
-        background={"rgba(255,255,255, 0.7)"}
-        borderRadius="lg"
-        align={"center"}
-        justify="center"
-        p={10}
+      <Flex
+      minH={'100vh'} 
       >
-        <Stack align={"center"}>
-          <TonConnectButton />
-          <Box background={"black"} borderRadius={"250px"}>
-            <Image
-              src={logo}
-              placeholder="blur"
-              alt="logo"
-              quality={100}
-              sizes="10vw"
-            />
-          </Box>
-        </Stack>
-        <Divider />
-        <Stack gap={2}>
-          <Text textAlign={"center"}>
-            <b>
-              Earn Rewards with NOT Staking: This program offers high daily
-              returns and low fees for staking your NOT tokens. You can earn up
-              to 8% daily interest and a referral bonus of up to 5% (more
-              details available).
-            </b>
-          </Text>
-          <Stack
-            gap={0}
-            textAlign={"normal"}
-            justify="normal"
-            px={{ base: 5, md: 20 }}
-          >
-            <Heading textAlign={"center"}>How it Works </Heading>
-            <Text>
-              <b> #1 - STAKE NOT</b>: Deposit your NOT tokens to start earning
-              rewards.
-            </Text>
-            <Text>
-              <b>#2 - COMPOUND</b>: To maximize your earnings, reinvest your
-              rewards back into NOT automatically by clicking the
-              &ldquo;COMPOUND&rdquo; button. Maximizing Your Earnings:
-            </Text>
-            <Text>
-              <b>#3 - CLAIM REWARDS</b>: Transfer your accumulated rewards
-              directly to your wallet.
-            </Text>
-          </Stack>
-          <Text textAlign={"center"}>
-            The key to earning more rewards is the amount of NOT you stake and
-            how often you compound your rewards. The more NOT you hold and the
-            more frequently you reinvest your earnings, the greater your
-            potential returns
-          </Text>
-        </Stack>
-        <Box mt={10}>
-          <Stack align={"center"} gap={5}>
-            <Card
-              maxW="md"
-              boxShadow="0 0 10px 5px rgba(48, 18, 135, 0.5)"
-              background={"rgba(255,255,255, 0.3)"}
-              borderRadius="lg"
-            >
-              <CardBody align={"center"}>
-                <TableContainer p={2} borderRadius={"lg"}>
-                  <Table variant="simple">
-                    <Tbody>
-                      <Tr justifyContent={"space-between"}>
-                        <Td fontSize="xs">TVL</Td>
-                        <Td isNumeric align="center">
-                          0.00 $
-                        </Td>
-                      </Tr>
-                      <Tr justifyContent={"space-between"}>
-                        <Td fontSize="xs">Contract</Td>
-                        <Td isNumeric>{fromNano(totalValueLocked)} NOT</Td>
-                      </Tr>
-                      <Tr justifyContent={"space-between"}>
-                        <Td fontSize="xs">Wallet</Td>
-                        <Td isNumeric>{fromNano(userWalletBalance)} NOT</Td>
-                      </Tr>
-                      <Tr justifyContent={"space-between"}>
-                        <Td fontSize="xs">Your NOT</Td>
-                        <Td isNumeric>{fromNano(userStakedBalance)} NOT</Td>
-                      </Tr>
-                    </Tbody>
-                  </Table>
-                </TableContainer>
-                <Flex justifyContent={"space-around"} align="center">
-                  <NumberInput onChange={(e) => setAmount(Number(e))}>
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                  <Text>NOT</Text>
-                </Flex>
+<Sidebar />
 
-                <Button
-                  m={2}
-                  onClick={() =>
-                    farmWalletStatus == 0
-                      ? initializeFarmContract()
-                      : stake(amount)
-                  }
-                
-                >
-                  {farmWalletStatus == 0 ? "initialize" : "Mine NOT"}
-                </Button>
-               
-                <Divider />
-                <TableContainer p={2} borderRadius={"lg"}>
-                  <Table variant="simple">
-                    <Tbody>
-                      <Tr>
-                        <Td fontSize="xs">Your Rewards</Td>
-                        <Td isNumeric align="center">
-                          {fromNano(currRewards)} NOT
-                        </Td>
-                      </Tr>
-                    </Tbody>
-                  </Table>
-                </TableContainer>
-                <ButtonGroup>
-                  <Button onClick={() => compound()}>COMPOUND</Button>
-                  <Button onClick={() => claimRewards()}>CLAIM REWARDS</Button>
-                </ButtonGroup>
-              </CardBody>
-            </Card>
-            <Card
-              maxW="sm"
-              boxShadow="0 0 10px 5px rgba(48, 18, 135, 0.5)"
-              background={"rgba(255,255,255, 0.3)"}
-              borderRadius="lg"
-            >
-              <CardBody align={"center"} justifyContent="space-between">
-                <Heading>Nutritional Values</Heading>
-                <Divider />
-                <Stack>
-                  <Text>
-                    Daily Return..........................................6%
-                  </Text>
-                  <Text>
-                    APR..................................................2,920%
-                  </Text>
-                  <Text>
-                    Dev Fee...................................................5%
-                  </Text>
-                </Stack>
-              </CardBody>
-            </Card>
-            <Card
-              maxW="sm"
-              background={"rgba(255,255,255, 0.3)"}
-              boxShadow="0 0 10px 5px rgba(48, 18, 135, 0.5)"
-              borderRadius="lg"
-              gap={2}
-            >
-              <CardBody align={"center"}>
-                <Heading>Referral Link</Heading>
-                <Input value={referralLink} isDisabled />
-                <Button
-                  onClick={() => {
-                    if (!referralLink) {
-                      generateReferralLink();
-                    } else if (referralLink != null) {
-                      navigator.clipboard.writeText(referralLink);
-                      toast.success("referral link copied");
-                    }
-                  }}
-                >
-                  {referralLink != "" && referralLink != null
-                    ? "COPY TO CLIPBOARD"
-                    : "Generate Referal Link"}
-                </Button>
-                <Text>
-                  Earn 5% of the NOT used to compound from anyone who uses your
-                  referral link
-                </Text>
-              </CardBody>
-            </Card>
-          </Stack>
-        </Box>
-      </Stack>
+
+      </Flex>
     </>
   );
 }
