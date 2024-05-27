@@ -289,7 +289,7 @@ export default function Referrals() {
                         _hover={{ backgroundColor: "#32b9c4" }}
             borderRightRadius={"10px"}
             borderLeftRadius={["10px", "0"]}
-            color={"#FFFFFF"}
+            
             h={[10, "50px", "50px", "50px"]}
             w={"100px"}
           >
