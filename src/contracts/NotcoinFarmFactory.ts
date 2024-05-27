@@ -1,14 +1,14 @@
 import {
-  Address,
-  beginCell,
-  Cell,
-  Contract,
-  contractAddress,
-  ContractProvider,
-  Sender,
-  SendMode,
-} from "@ton/core";
-import { Op } from "./FarmConstants";
+    Address,
+    beginCell,
+    Cell,
+    Contract,
+    contractAddress,
+    ContractProvider,
+    Sender,
+    SendMode,
+} from '@ton/core'
+import { Op } from './FarmConstants'
 
 export type NotcoinFarmFactoryConfig = {
   adminAddress: Address;
@@ -28,7 +28,7 @@ export type NotcoinFarmFactoryConfig = {
 // cell additional_data = ds~load_ref();
 
 export function notcoinFarmFactoryConfigToCell(
-  config: NotcoinFarmFactoryConfig
+    config: NotcoinFarmFactoryConfig,
 ): Cell {
   return beginCell()
     .storeCoins(0) // total deposited balance
@@ -45,32 +45,32 @@ export function notcoinFarmFactoryConfigToCell(
 }
 
 export class NotcoinFarmFactory implements Contract {
-  constructor(
-    readonly address: Address,
-    readonly init?: { code: Cell; data: Cell }
-  ) {}
+    constructor(
+        readonly address: Address,
+        readonly init?: { code: Cell; data: Cell },
+    ) {}
 
-  static createFromAddress(address: Address) {
-    return new NotcoinFarmFactory(address);
-  }
+    static createFromAddress(address: Address) {
+        return new NotcoinFarmFactory(address)
+    }
 
-  static createFromConfig(
-    config: NotcoinFarmFactoryConfig,
-    code: Cell,
-    workchain = 0
-  ) {
-    const data = notcoinFarmFactoryConfigToCell(config);
-    const init = { code, data };
-    return new NotcoinFarmFactory(contractAddress(workchain, init), init);
-  }
+    static createFromConfig(
+        config: NotcoinFarmFactoryConfig,
+        code: Cell,
+        workchain = 0,
+    ) {
+        const data = notcoinFarmFactoryConfigToCell(config)
+        const init = { code, data }
+        return new NotcoinFarmFactory(contractAddress(workchain, init), init)
+    }
 
-  async sendDeploy(provider: ContractProvider, via: Sender, value: bigint) {
-    await provider.internal(via, {
-      value,
-      sendMode: SendMode.PAY_GAS_SEPARATELY,
-      body: beginCell().endCell(),
-    });
-  }
+    async sendDeploy(provider: ContractProvider, via: Sender, value: bigint) {
+        await provider.internal(via, {
+            value,
+            sendMode: SendMode.PAY_GAS_SEPARATELY,
+            body: beginCell().endCell(),
+        })
+    }
 
   async sendUpdateFactoryJettonAddr(
     provider: ContractProvider,
@@ -117,8 +117,8 @@ export class NotcoinFarmFactory implements Contract {
       },
     ]);
 
-    return resp.stack.readAddress();
-  }
+        return resp.stack.readAddress()
+    }
 
   async getFactoryData(provider: ContractProvider) {
     const resp = await provider.get("get_factory_data", []);
