@@ -27,7 +27,7 @@ const Sidebar = () => {
   };
 
   const sidebarWidth = useBreakpointValue({ base: '100%', md: isCollapsed ? '5vw' : '20vw' });
-  const displaySidebar = useBreakpointValue({ base: isSidebarVisible ? 'block' : 'none', md: 'block' });
+  const displaySidebar = useBreakpointValue({ base: 'none', md: 'none', lg: 'block' });
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
@@ -94,7 +94,7 @@ const Sidebar = () => {
           </Flex>
         </Flex>
       </Flex>
-      <Box  ml={{ base: 0, md: isCollapsed ? '5vw' : '0' }} transition={'margin-left 0.3s'}>
+      <Box  transition={'margin-left 0.3s'}>
         <Dashboard isCollapsed={isCollapsed} />
       </Box>
     </Flex>
