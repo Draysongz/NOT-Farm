@@ -78,13 +78,13 @@ export const useFarmWallet = () => {
   }, [client, userJettonWalletAddr]);
 
   useEffect(() => {
-    (async () => {
+    const userData = async () => {
       if (!client) return;
       if (!farmWallet) return;
       if (!jettonWallet) return;
       try {
-        const stakedBalance = await farmWallet.getStakedBalance();
-        setUserStakedBalance(stakedBalance);
+        const { depositBalance } = await farmWallet.getFarmWalletData();
+        setUserStakedBalance(depositBalance);
         const rewards = await farmWallet.getRewards();
         setCurrRewards(rewards);
         const walletBalance = await jettonWallet.getJettonBalance();
@@ -92,7 +92,11 @@ export const useFarmWallet = () => {
       } catch (err) {
         console.log(err);
       }
-    })();
+      await sleep(5000);
+      userData();
+    };
+    userData();
+    return () => {};
   }, [client, farmWallet, jettonWallet]);
 
   return {
@@ -132,7 +136,7 @@ const sendStake = async (
       via,
       toNano("0.05"),
       toNano(jettonAmount),
-      farmWalletAddr,
+      notcoinFarmFactoryAddress,
       userAddress,
       new Cell(),
       toNano("0.005"),

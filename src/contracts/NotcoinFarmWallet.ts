@@ -39,6 +39,7 @@ type FarmWalletConfig = {
 // cell notcoin_farm_wallet_code = ds~load_ref();
 
 function farmWalletConfigToCell(config: FarmWalletConfig): Cell {
+<<<<<<< HEAD
     return beginCell()
         .storeCoins(0) // staked amount
         .storeInt(0, 4) // status
@@ -50,6 +51,19 @@ function farmWalletConfigToCell(config: FarmWalletConfig): Cell {
         .storeAddress(config.notcoinFarmFactoryAddress)
         .storeRef(config.notCoinFarmWalletCode)
         .endCell()
+=======
+  return beginCell()
+    .storeCoins(0) // staked amount
+    .storeInt(0, 4) // status
+    .storeCoins(0) //rewards
+    .storeUint(0, 32) //daily Rate
+    .storeCoins(0) // notMiner
+    .storeUint(0, 64) // last saved time
+    .storeAddress(config.ownerAddress)
+    .storeAddress(config.notcoinFarmFactoryAddress)
+    .storeRef(config.notCoinFarmWalletCode)
+    .endCell();
+>>>>>>> 3233574fb11b868b69a2c7dfbd87453dd180f8a1
 }
 
 export class NotcoinFarmWallet implements Contract {
@@ -153,26 +167,26 @@ export class NotcoinFarmWallet implements Contract {
         })
     }
 
-    async getFarmWalletData(provider: ContractProvider) {
-        const resp = await provider.get('get_wallet_data', [])
+  async getFarmWalletData(provider: ContractProvider) {
+    const resp = await provider.get("get_wallet_data", []);
 
-        return {
-            depositBalance: resp.stack.readNumber(),
-            status: resp.stack.readNumber(),
-            availableRewards: resp.stack.readNumber(),
-            dailyRate: resp.stack.readNumber(),
-            notMiner: resp.stack.readNumber(),
-            lastSavedTime: resp.stack.readNumber(),
-            ownerAddress: resp.stack.readAddress(),
-            farmFactoryAddress: resp.stack.readAddress(),
-            farmWalletCode: resp.stack.readCell(),
-        }
-    }
+    return {
+      depositBalance: resp.stack.readNumber(),
+      status: resp.stack.readNumber(),
+      availableRewards: resp.stack.readNumber(),
+      dailyRate: resp.stack.readNumber(),
+      notMiner: resp.stack.readNumber(),
+      lastSavedTime: resp.stack.readNumber(),
+      ownerAddress: resp.stack.readAddress(),
+      farmFactoryAddress: resp.stack.readAddress(),
+      farmWalletCode: resp.stack.readCell(),
+    };
+  }
 
-    async getRewards(provider: ContractProvider) {
-        const resp = await provider.get('get_reward', [])
-        return resp.stack.readNumber()
-    }
+  async getRewards(provider: ContractProvider) {
+    const resp = await provider.get("get_reward", []);
+    return resp.stack.readNumber();
+  }
 }
 
 // int deposit_amount = ds~load_coins();

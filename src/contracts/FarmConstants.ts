@@ -6,19 +6,20 @@ import { JettonMinter } from './JettonMinter'
 import { JettonWallet } from './JettonWallet'
 
 abstract class Op {
-    static stake_notification = 120
-    static unstake = 121
-    static unstake_notification = 123
-    static claim_rewards_notification = 200
-    static claim_rewards = 201
-    static compound = 400
-    static compound_notification = 501
-    static withdraw_token = 600
-    static withdraw_excess_ton = 900
-    static sent_data = 991
-    static initialize_contract = 130
-    static update_factory_jetton_addr = 144
-    static update_factory_data = 145
+  static stake_notification = 120;
+  static unstake = 121;
+  static unstake_notification = 123;
+  static claim_rewards_notification = 200;
+  static claim_rewards = 201;
+  static compound = 400;
+  static compound_notification = 501;
+  static withdraw_token = 600;
+  static withdraw_excess_ton = 900;
+  static sent_data = 991;
+  static initialize_contract = 130;
+  static update_factory_jetton_addr = 144;
+  static update_factory_data = 145;
+
 }
 
 const testAddrJettonMinter = Address.parse(
@@ -26,8 +27,8 @@ const testAddrJettonMinter = Address.parse(
 )
 
 const notcoinFarmFactoryAddress = Address.parse(
-    'EQDYRXXjWuz8dXzAaZducipBa69KmChq9GN5vbHgu43EcTpq',
-)
+  "EQA_2Q7pQ3y4maUWE6vGTP9cOaBKq4dEfIHHfSGpt0Oy-u4i"
+);
 // open farm factory contract
 function openFarmFactoryContract(provider: NetworkProvider) {
     const fc = provider.open(

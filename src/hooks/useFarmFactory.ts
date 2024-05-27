@@ -74,6 +74,8 @@ export const useFarmFactory = () => {
       getStatus();
     };
     getStatus();
+
+    return () => {};
   }, [farmWallet, client]);
 
   useEffect(() => {
@@ -81,19 +83,26 @@ export const useFarmFactory = () => {
       if (!client) return;
       if (!farmFactory) return;
       try {
-        const tvl = await farmFactory.getTotalStakedBalance();
-        setTotalValueLocked(tvl);
+        const { totalDepositBalance } = await farmFactory.getFactoryData();
+        setTotalValueLocked(totalDepositBalance);
       } catch (err) {
         console.log(err);
       }
     })();
+
+    return () => {};
   }, [totalValueLocked, farmFactory, client]);
 
   return {
     totalValueLocked,
     farmWalletStatus,
+<<<<<<< HEAD
 
   };
 };
 
 
+=======
+  };
+};
+>>>>>>> 3233574fb11b868b69a2c7dfbd87453dd180f8a1
