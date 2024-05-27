@@ -101,7 +101,7 @@ const Dashboard = ({ isCollapsed }) => {
                    Your NotMiner
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
-                  0 NOT
+                  0 NOTM
                 </Text>
               </Flex>
             </Flex>
