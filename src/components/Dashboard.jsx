@@ -267,7 +267,7 @@ const Dashboard = ({ isCollapsed }) => {
 
                     <Flex direction={'column'} alignSelf={'end'}>
                       <Text>~0.0000</Text>
-                      <Text align={'right'}>TON</Text>
+                      <Text align={'right'}>NOT</Text>
                     </Flex>
                   </Flex>
 
