@@ -44,16 +44,6 @@ export const useFarmFactory = () => {
     }
   }, [client, userAddress]);
 
-  // to initialize contract, I need the jetton address of the user Farm contract
-  const jettonAddr = useAsyncInitialze(async () => {
-    if (!fmWalletAddr) return;
-    try {
-      return await getUserJettonAddr(client, fmWalletAddr);
-    } catch (err) {
-      console.log(err);
-    }
-  }, [client, fmWalletAddr]);
-
   // open farm contract from farm wallet address
   const farmWallet = useSyncInitialize(() => {
     if (!fmWalletAddr) return;
