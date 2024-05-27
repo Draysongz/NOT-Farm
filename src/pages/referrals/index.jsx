@@ -31,6 +31,7 @@ import { GiMiner } from "react-icons/gi";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { PiHandWithdraw } from "react-icons/pi";
 import { FaCartArrowDown } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Referrals() {
  const [isCollapsed, setIsCollapsed] = useState(false);
@@ -127,8 +128,10 @@ export default function Referrals() {
             borderRadius={'md'}
             w={'100%'}
           >
-            <Icon as={PiTreeStructureBold} boxSize={6} />
-            {!isCollapsed && <Text ml={3}>Stake</Text>}
+            <Icon as={MdGroups} boxSize={6} />
+            <Link href={'/referrals'}>
+            {!isCollapsed && <Text ml={3}>Referrals</Text>}
+            </Link>
           </Flex>
         </Flex>
       </Flex>

@@ -98,10 +98,10 @@ const Dashboard = ({ isCollapsed }) => {
 
               <Flex direction={"column"}>
                 <Text color={"#cea638"} fontSize={"small"}>
-                  $NOT Price
+                  Wallet
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
-                  $2.567400
+                  0 TON
                 </Text>
               </Flex>
             </Flex>
