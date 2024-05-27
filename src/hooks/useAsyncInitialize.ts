@@ -6,8 +6,14 @@ export function useAsyncInitialze<T>(func: () => Promise<T>, deps: any[] = []) {
 
   useEffect(() => {
     (async () => {
-      setState(await func());
+      try {
+        setState(await func());
+      } catch (err) {
+        console.log(err);
+      }
     })();
+
+    return () => {};
   }, deps);
 
   return state;

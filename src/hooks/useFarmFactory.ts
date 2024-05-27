@@ -74,6 +74,8 @@ export const useFarmFactory = () => {
       getStatus();
     };
     getStatus();
+
+    return () => {};
   }, [farmWallet, client]);
 
   useEffect(() => {
@@ -81,37 +83,18 @@ export const useFarmFactory = () => {
       if (!client) return;
       if (!farmFactory) return;
       try {
-        const tvl = await farmFactory.getTotalStakedBalance();
-        setTotalValueLocked(tvl);
+        const { totalDepositBalance } = await farmFactory.getFactoryData();
+        setTotalValueLocked(totalDepositBalance);
       } catch (err) {
         console.log(err);
       }
     })();
+
+    return () => {};
   }, [totalValueLocked, farmFactory, client]);
 
   return {
     totalValueLocked,
     farmWalletStatus,
-
-    initializeFarmContract: async () => {
-      console.log(jettonAddr.toString());
-      return await initializeUserFarmContract(farmFactory, sender, jettonAddr);
-    },
   };
-};
-
-const initializeUserFarmContract = async (
-  farmContract: OpenedContract<NotcoinFarmFactory>,
-  via: Sender,
-  farmWalletJettonAddr: Address
-) => {
-  try {
-    return await farmContract.sendInitializeFarmWallet(
-      via,
-      toNano("0.05"),
-      farmWalletJettonAddr
-    );
-  } catch (err) {
-    console.log(err);
-  }
 };

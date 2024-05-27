@@ -17,7 +17,8 @@ abstract class Op {
   static withdraw_excess_ton = 900;
   static sent_data = 991;
   static initialize_contract = 130;
-  static update_factory_data = 144;
+  static update_factory_jetton_addr = 144;
+  static update_factory_data = 145;
 }
 
 const testAddrJettonMinter = Address.parse(
@@ -25,7 +26,7 @@ const testAddrJettonMinter = Address.parse(
 );
 
 const notcoinFarmFactoryAddress = Address.parse(
-  "EQAPP_-P6lutrk5vyR7Nh7xZjMvRP6HD8mSKiIWaAL7NDh7S"
+  "EQA_2Q7pQ3y4maUWE6vGTP9cOaBKq4dEfIHHfSGpt0Oy-u4i"
 );
 // open farm factory contract
 function openFarmFactory(provider: TonClient) {

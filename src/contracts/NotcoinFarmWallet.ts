@@ -41,8 +41,10 @@ type FarmWalletConfig = {
 function farmWalletConfigToCell(config: FarmWalletConfig): Cell {
   return beginCell()
     .storeCoins(0) // staked amount
-    .storeUint(0, 4) // status
+    .storeInt(0, 4) // status
     .storeCoins(0) //rewards
+    .storeUint(0, 32) //daily Rate
+    .storeCoins(0) // notMiner
     .storeUint(0, 64) // last saved time
     .storeAddress(config.ownerAddress)
     .storeAddress(config.notcoinFarmFactoryAddress)
@@ -147,22 +149,18 @@ export class NotcoinFarmWallet implements Contract {
     });
   }
 
-  async getStakedBalance(provider: ContractProvider): Promise<number> {
-    const resp = await provider.get("get_staked_balance", []);
-    return resp.stack.readNumber();
-  }
-
   async getFarmWalletData(provider: ContractProvider) {
     const resp = await provider.get("get_wallet_data", []);
 
     return {
-      stakeBalance: resp.stack.readNumber(),
+      depositBalance: resp.stack.readNumber(),
       status: resp.stack.readNumber(),
       availableRewards: resp.stack.readNumber(),
+      dailyRate: resp.stack.readNumber(),
+      notMiner: resp.stack.readNumber(),
       lastSavedTime: resp.stack.readNumber(),
       ownerAddress: resp.stack.readAddress(),
       farmFactoryAddress: resp.stack.readAddress(),
-      additionalData: resp.stack.readCell(),
       farmWalletCode: resp.stack.readCell(),
     };
   }
@@ -172,3 +170,13 @@ export class NotcoinFarmWallet implements Contract {
     return resp.stack.readNumber();
   }
 }
+
+// int deposit_amount = ds~load_coins();
+// int status = ds~load_int(4); ;; referral status
+// int rewards = ds~load_coins();
+// int dailyRate = ds~load_uint(32);
+// int notMiner = ds~load_coins();
+// int last_saved_time = ds~load_uint(64);
+// slice owner_address = ds~load_msg_addr();
+// slice notcoin_farm_factory_address = ds~load_msg_addr();
+// cell notcoin_farm_wallet_code = ds~load_ref();
