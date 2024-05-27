@@ -67,7 +67,7 @@ const Dashboard = ({ isCollapsed }) => {
               </Flex>
 
               <Flex direction={'column'} >
-                <Text color={'#cea638'} fontSize={'small'}>Total $NOT Supply</Text>
+                <Text color={'#cea638'} fontSize={'small'}>Rewards</Text>
                 <Text fontWeight={'700'} color={'white'}>430000</Text>
               </Flex>
             </Flex>
@@ -82,7 +82,7 @@ const Dashboard = ({ isCollapsed }) => {
               </Flex>
 
               <Flex direction={'column'} >
-                <Text color={'#cea638'} fontSize={'small'}>Total staked $NOT </Text>
+                <Text color={'#cea638'} fontSize={'small'}>TVL </Text>
                 <Text fontWeight={'700'} color={'white'}>127400</Text>
               </Flex>
             </Flex>
@@ -126,7 +126,7 @@ const Dashboard = ({ isCollapsed }) => {
             boxShadow='0px 4px 10px rgba(56, 206, 220, 0.5)'
             _hover={{ backgroundColor: '#32b9c4' }}
           >
-            Stake Now
+            Buy Now
           </Button>
         </Flex>
        
