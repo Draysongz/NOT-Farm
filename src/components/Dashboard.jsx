@@ -38,7 +38,7 @@ const Dashboard = ({ isCollapsed }) => {
       
     >
       <Flex justifyContent={'space-between'} p={3}> 
-        <Text fontSize={'x-large'}>Buy</Text>
+        <Text fontSize={'x-large'}>NotMiner</Text>
         <TonConnectButton />
       </Flex>
       <Divider />
