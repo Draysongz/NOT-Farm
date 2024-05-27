@@ -56,10 +56,6 @@ export default function Referrals() {
 
   const cardData = [
     {
-      title: "Total Royalties",
-      text: "0 XXXXXX",
-    },
-    {
       title: "Referrals",
       text: "0",
     }
@@ -111,7 +107,9 @@ export default function Referrals() {
             w={'100%'}
           >
             <Icon as={MdDashboard} boxSize={6} />
+            <Link href={'/'}>
             {!isCollapsed && <Text ml={3}>Dashboard</Text>}
+            </Link>
           </Flex>
           <Divider />
           <Flex
@@ -245,7 +243,7 @@ export default function Referrals() {
       >
         <Heading fontSize={"md"} color={'white'}>Refer Friends & Get Rewarded!</Heading>
         <Text whiteSpace={"pre-wrap"} mt={2} color={'white'} fontSize={["13px", "sm"]}>
-          Get rewarded for sharing xxxxx with your friends. Invite them by using
+          Get rewarded for sharing Notminer with your friends. Invite them by using
           your unique code link below.
         </Text>
       </Box>
@@ -285,7 +283,10 @@ export default function Referrals() {
           </Box>
 
           <Button
-            bg={useColorModeValue("#8F6AFB", "#501EE1")}
+            backgroundColor="#38cedc"
+                        color="white"
+                        boxShadow="0px 4px 10px rgba(56, 206, 220, 0.5)"
+                        _hover={{ backgroundColor: "#32b9c4" }}
             borderRightRadius={"10px"}
             borderLeftRadius={["10px", "0"]}
             color={"#FFFFFF"}

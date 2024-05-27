@@ -185,7 +185,7 @@ const Sidebar = () => {
           <ModalBody>
             <Text mb={4}>
               This program offers high daily returns and low fees for staking your NOT tokens. 
-              You can earn up to 8% daily interest and a referral bonus of up to 5% (more details available).
+              You can earn up to 6% daily interest and a referral bonus of up to 5% (more details available).
             </Text>
 
             <Text fontWeight="bold" mb={2}>How it Works:</Text>
