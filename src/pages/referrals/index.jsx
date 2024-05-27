@@ -199,8 +199,8 @@ export default function Referrals() {
             gap={3}
           >
             {index == 0 ? (
-              <Box bg={"#ED8936"} p={1.5} rounded="full">
-                <Icon boxSize={7} color={"#fff"} as={FaBitcoin} />
+              <Box bg={"#3e382a"} p={1.5} rounded="2xl">
+               
               </Box>
             ) : (
               <Box
