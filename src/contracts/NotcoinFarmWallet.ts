@@ -39,19 +39,6 @@ type FarmWalletConfig = {
 // cell notcoin_farm_wallet_code = ds~load_ref();
 
 function farmWalletConfigToCell(config: FarmWalletConfig): Cell {
-<<<<<<< HEAD
-    return beginCell()
-        .storeCoins(0) // staked amount
-        .storeInt(0, 4) // status
-        .storeCoins(0) //rewards
-        .storeUint(0, 32) //daily Rate
-        .storeCoins(0) // notMiner
-        .storeUint(0, 64) // last saved time
-        .storeAddress(config.ownerAddress)
-        .storeAddress(config.notcoinFarmFactoryAddress)
-        .storeRef(config.notCoinFarmWalletCode)
-        .endCell()
-=======
   return beginCell()
     .storeCoins(0) // staked amount
     .storeInt(0, 4) // status
@@ -63,7 +50,6 @@ function farmWalletConfigToCell(config: FarmWalletConfig): Cell {
     .storeAddress(config.notcoinFarmFactoryAddress)
     .storeRef(config.notCoinFarmWalletCode)
     .endCell();
->>>>>>> 3233574fb11b868b69a2c7dfbd87453dd180f8a1
 }
 
 export class NotcoinFarmWallet implements Contract {

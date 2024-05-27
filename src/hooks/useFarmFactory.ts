@@ -96,13 +96,5 @@ export const useFarmFactory = () => {
   return {
     totalValueLocked,
     farmWalletStatus,
-<<<<<<< HEAD
-
   };
 };
-
-
-=======
-  };
-};
->>>>>>> 3233574fb11b868b69a2c7dfbd87453dd180f8a1
