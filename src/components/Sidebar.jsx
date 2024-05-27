@@ -110,7 +110,9 @@ const Sidebar = () => {
             w={'100%'}
           >
             <Icon as={MdDashboard} boxSize={6} />
+            <Link href={'/'}>
             {!isCollapsed && <Text ml={3}>Dashboard</Text>}
+            </Link>
           </Flex>
           <Divider />
           <Flex
@@ -149,7 +151,7 @@ const Sidebar = () => {
         >
           {navData.map((item, index) => (
             <Tooltip
-              label={`${index == 1 ? "Coming soon" : ""}`}
+              
               hasArrow={index == 1 ? true : false}
               placement="top"
             >
