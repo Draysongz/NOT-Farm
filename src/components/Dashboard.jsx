@@ -38,13 +38,13 @@ const Dashboard = ({ isCollapsed }) => {
       
     >
       <Flex justifyContent={'space-between'} p={3}> 
-        <Text fontSize={'x-large'}>Stake</Text>
+        <Text fontSize={'x-large'}>Buy</Text>
         <TonConnectButton />
       </Flex>
       <Divider />
 
       <Flex mt={5} justifyContent={'space-between'} direction={['column', 'column', 'column', 'row']}>
-        <Card w={useBreakpointValue({base: '100%', md: '100%', lg:'18vw'})} h={'15vh'} bg={'#282828'} border={'2px solid #3e382a'}> 
+        <Card w={useBreakpointValue({base: '100%', md: '100%', lg:'18vw'})} h={'15vh'} bg={'#282828'} border={'2px solid #3e382a'} mb={useBreakpointValue({base: '4%', md: '0%', lg: '0%'})}> 
           <CardBody>
             <Flex  h="100%" alignItems={'center'} gap={5}>
               <Flex alignItems={'center'} justifyContent={'center'}  bg={'#3e382a'}borderRadius={'8px'} border={'1px solid #826b31'} w={useBreakpointValue({base: '13vw', md:'10vw', lg: '4vw'})} h={'7vh'}>
@@ -59,7 +59,7 @@ const Dashboard = ({ isCollapsed }) => {
           </CardBody>
         </Card>
 
-          <Card w={useBreakpointValue({base: '100%', md: '100%', lg:'18vw'})} h={'15vh'} bg={'#282828'} border={'2px solid #3e382a'}> 
+          <Card w={useBreakpointValue({base: '100%', md: '100%', lg:'18vw'})} h={'15vh'} bg={'#282828'} border={'2px solid #3e382a'} mb={useBreakpointValue({base: '4%', md: '0%', lg: '0%'})}> 
           <CardBody>
             <Flex  h="100%" alignItems={'center'} gap={5}>
               <Flex alignItems={'center'} justifyContent={'center'}  bg={'#3e382a'}borderRadius={'8px'} border={'1px solid #826b31'}  w={useBreakpointValue({base: '13vw', md:'10vw', lg: '4vw'})}>
@@ -74,7 +74,7 @@ const Dashboard = ({ isCollapsed }) => {
           </CardBody>
         </Card>
 
-          <Card w={useBreakpointValue({base: '100%', md: '100%', lg:'18vw'})} h={'15vh'} bg={'#282828'} border={'2px solid #3e382a'}> 
+          <Card  mb={useBreakpointValue({base: '4%', md: '0%', lg: '0%'})} w={useBreakpointValue({base: '100%', md: '100%', lg:'18vw'})} h={'15vh'} bg={'#282828'} border={'2px solid #3e382a'}> 
           <CardBody>
             <Flex  h="100%" alignItems={'center'} gap={5}>
               <Flex alignItems={'center'} justifyContent={'center'}  bg={'#3e382a'}borderRadius={'8px'} border={'1px solid #826b31'} w={useBreakpointValue({base: '13vw', md:'10vw', lg: '4vw'})} h={'7vh'} h={'7vh'}>
