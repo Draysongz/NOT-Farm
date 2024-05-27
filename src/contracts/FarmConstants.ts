@@ -1,9 +1,9 @@
-import { NetworkProvider } from '@ton/blueprint'
-import { Address } from '@ton/core'
-import { NotcoinFarmFactory } from './NotcoinFarmFactory'
-import { NotcoinFarmWallet } from './NotcoinFarmWallet'
-import { JettonMinter } from './JettonMinter'
-import { JettonWallet } from './JettonWallet'
+import { Address } from "@ton/core";
+import { NotcoinFarmFactory } from "./NotcoinFarmFactory";
+import { NotcoinFarmWallet } from "./NotcoinFarmWallet";
+import { JettonMinter } from "./JettonMinter";
+import { JettonWallet } from "./JettonWallet";
+import { TonClient } from "@ton/ton";
 
 abstract class Op {
   static stake_notification = 120;
@@ -19,82 +19,91 @@ abstract class Op {
   static initialize_contract = 130;
   static update_factory_jetton_addr = 144;
   static update_factory_data = 145;
-
 }
 
 const testAddrJettonMinter = Address.parse(
-    'EQBF-Uf-wl8ZW_Kq0WoTGJP87CDSU6IJvn5KaF6k6pBaG47W',
-)
+  "EQBF-Uf-wl8ZW_Kq0WoTGJP87CDSU6IJvn5KaF6k6pBaG47W"
+);
 
 const notcoinFarmFactoryAddress = Address.parse(
   "EQA_2Q7pQ3y4maUWE6vGTP9cOaBKq4dEfIHHfSGpt0Oy-u4i"
 );
 // open farm factory contract
-function openFarmFactoryContract(provider: NetworkProvider) {
-    const fc = provider.open(
-        NotcoinFarmFactory.createFromAddress(notcoinFarmFactoryAddress),
-    )
+function openFarmFactory(provider: TonClient) {
+  if (!provider) return;
+  const fc = provider.open(
+    NotcoinFarmFactory.createFromAddress(notcoinFarmFactoryAddress)
+  );
 
-    return fc
+  return fc;
 }
 
 // get farm wallet addr from farm Factory
 async function getUserFarmWalletAddr(
-    provider: NetworkProvider,
-    userAddress: Address,
+  provider: TonClient,
+  userAddress: Address
 ) {
-    const notcoinFarmFactory = openFarmFactoryContract(provider)
+  if (!provider) return;
+  const notcoinFarmFactory = openFarmFactory(provider);
 
-    const notcoinFarmWalletAddress =
-        await notcoinFarmFactory.getUserNotcoinFarmWalletAddress(userAddress)
-    return { notcoinFarmWalletAddress }
+  try {
+    const farmWalletAddress =
+      await notcoinFarmFactory.getUserNotcoinFarmWalletAddress(userAddress);
+    return farmWalletAddress;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // open farm wallet contract
-function farmWalletContract(
-    provider: NetworkProvider,
-    farmWalletAddr: Address,
-) {
-    const farmWallet = provider.open(
-        NotcoinFarmWallet.createFromAddress(farmWalletAddr),
-    )
+function openFarmWallet(provider: TonClient, farmWalletAddr: Address) {
+  if (!provider) return;
+  const farmWallet = provider.open(
+    NotcoinFarmWallet.createFromAddress(farmWalletAddr)
+  );
 
-    return farmWallet
+  return farmWallet;
+}
+
+function openJettonMinter(provider: TonClient) {
+  if (!provider) return;
+  const minter = provider.open(
+    JettonMinter.createFromAddress(testAddrJettonMinter)
+  );
+  return minter;
 }
 
 // get jettonWallet Address from jetton minter
-async function getUserJettonAddr(
-    provider: NetworkProvider,
-    userAddress: Address,
-) {
-    const minter = provider.open(
-        JettonMinter.createFromAddress(testAddrJettonMinter),
-    )
+async function getUserJettonAddr(provider: TonClient, userAddress: Address) {
+  if (!provider) return;
+  const minter = openJettonMinter(provider);
 
-    const userJettonWalletAddr = await minter.getWalletAddress(userAddress)
+  try {
+    const jettonWalletAddr = await minter.getWalletAddress(userAddress);
 
-    return { userJettonWalletAddr }
+    return jettonWalletAddr;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // open jetton wallet Contract
-function jettonWalletContract(
-    provider: NetworkProvider,
-    jettonWalletAddr: Address,
-) {
-    const jettonWallet = provider.open(
-        JettonWallet.createFromAddress(jettonWalletAddr),
-    )
+function openJettonWallet(provider: TonClient, jettonWalletAddr: Address) {
+  if (!provider) return;
+  const jettonWallet = provider.open(
+    JettonWallet.createFromAddress(jettonWalletAddr)
+  );
 
-    return jettonWallet
+  return jettonWallet;
 }
 
 export {
-    Op,
-    testAddrJettonMinter,
-    notcoinFarmFactoryAddress,
-    openFarmFactoryContract,
-    getUserFarmWalletAddr,
-    farmWalletContract,
-    getUserJettonAddr,
-    jettonWalletContract,
-}
+  Op,
+  testAddrJettonMinter,
+  notcoinFarmFactoryAddress,
+  openFarmFactory,
+  getUserFarmWalletAddr,
+  openFarmWallet,
+  getUserJettonAddr,
+  openJettonWallet,
+};

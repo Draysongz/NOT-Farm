@@ -5,8 +5,8 @@ import { useSyncInitialize } from "./useSyncInitialize";
 import {
   getUserFarmWalletAddr,
   getUserJettonAddr,
-  openFarmFactoryContract,
-  farmWalletContract,
+  openFarmFactory,
+  openFarmWallet,
 } from "@/contracts/FarmConstants";
 import { Address, OpenedContract, Sender, toNano } from "@ton/core";
 import { NotcoinFarmFactory } from "@/contracts/NotcoinFarmFactory";
@@ -31,7 +31,7 @@ export const useFarmFactory = () => {
   // open factory contract to initialize the contract
   const farmFactory = useSyncInitialize(() => {
     if (!client) return;
-    return openFarmFactoryContract(client);
+    return openFarmFactory(client);
   }, [client]);
 
   // get user Farm wallet address
@@ -47,7 +47,7 @@ export const useFarmFactory = () => {
   // open farm contract from farm wallet address
   const farmWallet = useSyncInitialize(() => {
     if (!fmWalletAddr) return;
-    return farmWalletContract(client, fmWalletAddr);
+    return openFarmWallet(client, fmWalletAddr);
   }, [client, fmWalletAddr]);
 
   useEffect(() => {
@@ -57,11 +57,9 @@ export const useFarmFactory = () => {
       try {
         const { status } = await farmWallet.getFarmWalletData();
         setFarmWalletStatus(status);
-        await sleep(5000); // 5 secs
       } catch (err) {
         console.log(err);
       }
-      getStatus();
     };
     getStatus();
 

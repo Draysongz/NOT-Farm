@@ -1,14 +1,14 @@
 import {
-    ContractProvider,
-    Contract,
-    Address,
-    Cell,
-    Sender,
-    SendMode,
-    beginCell,
-    contractAddress,
-} from '@ton/core'
-import { Op } from './FarmConstants'
+  ContractProvider,
+  Contract,
+  Address,
+  Cell,
+  Sender,
+  SendMode,
+  beginCell,
+  contractAddress,
+} from "@ton/core";
+import { Op } from "./FarmConstants";
 
 // export function setUpInitData(
 //     owner_address: Address,
@@ -25,10 +25,10 @@ import { Op } from './FarmConstants'
 // }
 
 type FarmWalletConfig = {
-    ownerAddress: Address
-    notcoinFarmFactoryAddress: Address
-    notCoinFarmWalletCode: Cell
-}
+  ownerAddress: Address;
+  notcoinFarmFactoryAddress: Address;
+  notCoinFarmWalletCode: Cell;
+};
 
 // int staked_amount = ds~load_coins();
 // int status = ds~load_uint(4);
@@ -53,105 +53,101 @@ function farmWalletConfigToCell(config: FarmWalletConfig): Cell {
 }
 
 export class NotcoinFarmWallet implements Contract {
-    constructor(
-        readonly address: Address,
-        readonly init?: { code: Cell; data: Cell },
-    ) {}
+  constructor(
+    readonly address: Address,
+    readonly init?: { code: Cell; data: Cell }
+  ) {}
 
-    static createFromAddress(address: Address) {
-        return new NotcoinFarmWallet(address)
-    }
+  static createFromAddress(address: Address) {
+    return new NotcoinFarmWallet(address);
+  }
 
-    static createFromConfig(
-        config: FarmWalletConfig,
-        code: Cell,
-        workchain = 0,
-    ) {
-        const data = farmWalletConfigToCell(config)
-        const init = { code, data }
-        return new NotcoinFarmWallet(contractAddress(workchain, init), init)
-    }
+  static createFromConfig(config: FarmWalletConfig, code: Cell, workchain = 0) {
+    const data = farmWalletConfigToCell(config);
+    const init = { code, data };
+    return new NotcoinFarmWallet(contractAddress(workchain, init), init);
+  }
 
-    async sendDeploy(provider: ContractProvider, via: Sender, value: bigint) {
-        provider.internal(via, {
-            value,
-            sendMode: SendMode.PAY_GAS_SEPARATELY,
-            body: beginCell().endCell(),
-        })
-    }
+  async sendDeploy(provider: ContractProvider, via: Sender, value: bigint) {
+    provider.internal(via, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell().endCell(),
+    });
+  }
 
-    async sendUnstake(
-        provider: ContractProvider,
-        value: bigint,
-        via: Sender,
-        userNotCoinFarmWalletJettonAddr: Address,
-        amount: bigint,
-    ) {
-        await provider.internal(via, {
-            value,
-            sendMode: SendMode.PAY_GAS_SEPARATELY,
-            body: beginCell()
-                .storeUint(Op.unstake, 32)
-                .storeCoins(amount)
-                .storeAddress(userNotCoinFarmWalletJettonAddr)
-                .endCell(),
-        })
-    }
+  async sendUnstake(
+    provider: ContractProvider,
+    value: bigint,
+    via: Sender,
+    userNotCoinFarmWalletJettonAddr: Address,
+    amount: bigint
+  ) {
+    await provider.internal(via, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell()
+        .storeUint(Op.unstake, 32)
+        .storeCoins(amount)
+        .storeAddress(userNotCoinFarmWalletJettonAddr)
+        .endCell(),
+    });
+  }
 
-    async sendClaimRewards(
-        provider: ContractProvider,
-        value: bigint,
-        via: Sender,
-        notcoinFactoryJettonAddr: Address,
-    ) {
-        await provider.internal(via, {
-            value,
-            sendMode: SendMode.PAY_GAS_SEPARATELY,
-            body: beginCell()
-                .storeUint(Op.claim_rewards, 32)
-                .storeAddress(notcoinFactoryJettonAddr)
-                .endCell(),
-        })
-    }
+  async sendClaimRewards(
+    provider: ContractProvider,
+    value: bigint,
+    via: Sender,
+    notcoinFactoryJettonAddr: Address
+  ) {
+    await provider.internal(via, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell()
+        .storeUint(Op.claim_rewards, 32)
+        .storeAddress(notcoinFactoryJettonAddr)
+        .endCell(),
+    });
+  }
 
-    async sendCompound(provider: ContractProvider, value: bigint, via: Sender) {
-        await provider.internal(via, {
-            value,
-            sendMode: SendMode.PAY_GAS_SEPARATELY,
-            body: beginCell().storeUint(Op.compound, 32).endCell(),
-        })
-    }
+  async sendCompound(provider: ContractProvider, value: bigint, via: Sender) {
+    await provider.internal(via, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell().storeUint(Op.compound, 32).endCell(),
+    });
+  }
 
-    async sendWithDrawTokens(
-        provider: ContractProvider,
-        value: bigint,
-        via: Sender,
-        amount: bigint,
-        farmWalletJettonAddr: Address,
-    ) {
-        await provider.internal(via, {
-            value,
-            sendMode: SendMode.PAY_GAS_SEPARATELY,
-            body: beginCell()
-                .storeUint(Op.withdraw_token, 32)
-                .storeCoins(amount)
-                .storeAddress(farmWalletJettonAddr)
-                .endCell(),
-        })
-    }
+  async sendWithDrawTokens(
+    provider: ContractProvider,
+    value: bigint,
+    via: Sender,
+    amount: bigint,
+    farmWalletJettonAddr: Address
+  ) {
+    await provider.internal(via, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell()
+        .storeUint(Op.withdraw_token, 32)
+        .storeCoins(amount)
+        .storeAddress(farmWalletJettonAddr)
+        .endCell(),
+    });
+  }
 
-    async sendWithdrawExcessTon(
-        provider: ContractProvider,
-        value: bigint,
-        via: Sender,
-        amount: bigint,
-    ) {
-        await provider.internal(via, {
-            value,
-            sendMode: SendMode.PAY_GAS_SEPARATELY,
-            body: beginCell().storeCoins(amount).endCell(),
-        })
-    }
+  async sendWithdrawExcessTon(
+    provider: ContractProvider,
+    value: bigint,
+    via: Sender,
+    amount: bigint
+  ) {
+    await provider.internal(via, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell().storeCoins(amount).endCell(),
+    });
+  }
 
   async getFarmWalletData(provider: ContractProvider) {
     const resp = await provider.get("get_wallet_data", []);

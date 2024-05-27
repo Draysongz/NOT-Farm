@@ -117,9 +117,6 @@ export const useFarmWallet = () => {
 
     claimRewards: async () =>
       await sendClaimRewards(farmWallet, factoryJettonWalletAddr, sender),
-
-    unstake: async (jettonAmount: number) =>
-      await sendUnstake(farmWallet, fmJettonWalletAddr, sender, jettonAmount),
   };
 };
 
@@ -170,25 +167,6 @@ const sendClaimRewards = async (
       toNano("0.05"),
       via,
       factoryjettonWalletAddr
-    );
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-// send unstaked message
-const sendUnstake = async (
-  farmWallet: OpenedContract<NotcoinFarmWallet>,
-  userFarmWalletJettonWallet: Address,
-  via: Sender,
-  jettonAmount: number
-) => {
-  try {
-    return await farmWallet.sendUnstake(
-      toNano("0.05"),
-      via,
-      userFarmWalletJettonWallet,
-      toNano(jettonAmount)
     );
   } catch (err) {
     console.log(err);
