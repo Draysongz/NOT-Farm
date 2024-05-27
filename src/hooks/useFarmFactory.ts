@@ -5,8 +5,8 @@ import { useSyncInitialize } from "./useSyncInitialize";
 import {
   getUserFarmWalletAddr,
   getUserJettonAddr,
-  openFarmFactory,
-  openFarmWallet,
+  openFarmFactoryContract,
+  farmWalletContract,
 } from "@/contracts/FarmConstants";
 import { Address, OpenedContract, Sender, toNano } from "@ton/core";
 import { NotcoinFarmFactory } from "@/contracts/NotcoinFarmFactory";
@@ -31,7 +31,7 @@ export const useFarmFactory = () => {
   // open factory contract to initialize the contract
   const farmFactory = useSyncInitialize(() => {
     if (!client) return;
-    return openFarmFactory(client);
+    return openFarmFactoryContract(client);
   }, [client]);
 
   // get user Farm wallet address
@@ -57,7 +57,7 @@ export const useFarmFactory = () => {
   // open farm contract from farm wallet address
   const farmWallet = useSyncInitialize(() => {
     if (!fmWalletAddr) return;
-    return openFarmWallet(client, fmWalletAddr);
+    return farmWalletContract(client, fmWalletAddr);
   }, [client, fmWalletAddr]);
 
   useEffect(() => {
@@ -93,25 +93,7 @@ export const useFarmFactory = () => {
     totalValueLocked,
     farmWalletStatus,
 
-    initializeFarmContract: async () => {
-      console.log(jettonAddr.toString());
-      return await initializeUserFarmContract(farmFactory, sender, jettonAddr);
-    },
   };
 };
 
-const initializeUserFarmContract = async (
-  farmContract: OpenedContract<NotcoinFarmFactory>,
-  via: Sender,
-  farmWalletJettonAddr: Address
-) => {
-  try {
-    return await farmContract.sendInitializeFarmWallet(
-      via,
-      toNano("0.05"),
-      farmWalletJettonAddr
-    );
-  } catch (err) {
-    console.log(err);
-  }
-};
+

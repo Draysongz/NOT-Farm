@@ -77,7 +77,7 @@ const Dashboard = ({ isCollapsed }) => {
           <Card  mb={useBreakpointValue({base: '4%', md: '0%', lg: '0%'})} w={useBreakpointValue({base: '100%', md: '100%', lg:'18vw'})} h={'15vh'} bg={'#282828'} border={'2px solid #3e382a'}> 
           <CardBody>
             <Flex  h="100%" alignItems={'center'} gap={5}>
-              <Flex alignItems={'center'} justifyContent={'center'}  bg={'#3e382a'}borderRadius={'8px'} border={'1px solid #826b31'} w={useBreakpointValue({base: '13vw', md:'10vw', lg: '4vw'})} h={'7vh'} h={'7vh'}>
+              <Flex alignItems={'center'} justifyContent={'center'}  bg={'#3e382a'}borderRadius={'8px'} border={'1px solid #826b31'} w={useBreakpointValue({base: '13vw', md:'10vw', lg: '4vw'})} h={'7vh'}>
                 <Icon as={CiDollar} boxSize={8} color={'white'} />
               </Flex>
 
@@ -98,7 +98,7 @@ const Dashboard = ({ isCollapsed }) => {
 
               <Flex direction={'column'} >
                 <Text color={'#cea638'} fontSize={'small'}>Rewards rate</Text>
-                <Text fontWeight={'700'} color={'white'}>8%</Text>
+                <Text fontWeight={'700'} color={'white'}>6%</Text>
               </Flex>
             </Flex>
           </CardBody>
