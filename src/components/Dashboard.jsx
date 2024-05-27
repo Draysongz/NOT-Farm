@@ -206,7 +206,7 @@ const Dashboard = ({ isCollapsed }) => {
         </Card>
       </Flex>
 
-      <Flex mt={5} direction={"column"}>
+      <Flex mt={5} direction={"column"} mb={useBreakpointValue({base: '20%', md:'0%', lg: '0%'})}>
         <Card
           bg={"#282828"}
           color={"white"}
@@ -259,12 +259,33 @@ const Dashboard = ({ isCollapsed }) => {
                     </Flex>
                   </Flex>
                 </TabPanel>
+                
                 <TabPanel>
-                  <p>two!</p>
+                 <Flex direction={'column'} justifyContent={'center'} bg={'black'} p={5} borderRadius={'10px'} border={"2px solid #ffc63c"}>
+                  <Flex direction={'column'} >
+                    <Text>REWARD</Text>
+
+                    <Flex direction={'column'} alignSelf={'end'}>
+                      <Text>~0.0000</Text>
+                      <Text align={'right'}>TON</Text>
+                    </Flex>
+                  </Flex>
+
+                  <Flex mt={useBreakpointValue({base: '7%', md: '6%', lg: '6%'})} alignSelf={useBreakpointValue({base: 'center', md: 'end', lg: 'end'})} gap={3}  direction={useBreakpointValue({base: 'column', md: 'row', lg: 'row'})}>
+                    <Button   backgroundColor="#38cedc"
+                        color="white"
+                        boxShadow="0px 4px 10px rgba(56, 206, 220, 0.5)"
+                        _hover={{ backgroundColor: "#32b9c4" }}
+                        >COMPOUND</Button>
+                        
+                    <Button backgroundColor="#38cedc"
+                        color="white"
+                        boxShadow="0px 4px 10px rgba(56, 206, 220, 0.5)"
+                        _hover={{ backgroundColor: "#32b9c4" }}>CLAIM REWARDS</Button>
+                  </Flex>
+                </Flex>
                 </TabPanel>
-                <TabPanel>
-                  <p>three!</p>
-                </TabPanel>
+               
               </TabPanels>
             </Tabs>
           </CardBody>
