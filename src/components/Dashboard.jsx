@@ -68,6 +68,10 @@ const Dashboard = ({ isCollapsed}) => {
   }
 
   useEffect(()=>{
+
+  }, [priceInUsd])
+
+  useEffect(()=>{
     fetchNotPrice()
   }, [])
   useEffect(() => {
@@ -195,7 +199,7 @@ const Dashboard = ({ isCollapsed}) => {
                   TVL{" "}
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
-                  307,240 NOT
+                  ${priceInUsd ? 307240 * priceInUsd: '0'}
                   {/* current tvl as at this time {Number(fromNano(totalValueLocked)).toFixed(2)} NOT */}
                 </Text>
               </Flex>
