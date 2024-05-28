@@ -21,6 +21,8 @@ abstract class Op {
   static update_factory_jetton_addr = 144;
   static update_factory_data = 145;
   static compound_and_claim_rewards = 1002;
+  static change_admin = 957;
+  static change_co_admin = 982;
 }
 
 const testAddrJettonMinter = Address.parse(

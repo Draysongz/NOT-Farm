@@ -90,6 +90,7 @@ export const useFarmWallet = () => {
       if (!client) return;
       if (!farmWallet) return;
       if (!jettonWallet) return;
+      console.log("farmwallet", fmWalletAddr.toString());
       try {
         const rewards = await farmWallet.getRewards();
         setCurrRewards(rewards);

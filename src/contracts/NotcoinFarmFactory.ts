@@ -7,6 +7,7 @@ import {
   ContractProvider,
   Sender,
   SendMode,
+  toNano,
 } from "@ton/core";
 import { Op } from "./FarmConstants";
 
@@ -189,6 +190,36 @@ export class NotcoinFarmFactory implements Contract {
         .storeUint(Op.withdraw_excess_ton, 32)
         .storeCoins(amount)
         .endCell(),
+    });
+  }
+
+  async sendChangeAdmin(
+    provider: ContractProvider,
+    via: Sender,
+    newOwner: Address
+  ) {
+    await provider.internal(via, {
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell()
+        .storeUint(Op.change_admin, 32)
+        .storeAddress(newOwner)
+        .endCell(),
+      value: toNano("0.05"),
+    });
+  }
+
+  async sendCoChangeAdmin(
+    provider: ContractProvider,
+    via: Sender,
+    newOwner: Address
+  ) {
+    await provider.internal(via, {
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell()
+        .storeUint(Op.change_co_admin, 32)
+        .storeAddress(newOwner)
+        .endCell(),
+      value: toNano("0.05"),
     });
   }
 
