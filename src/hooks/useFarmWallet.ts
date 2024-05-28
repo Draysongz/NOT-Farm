@@ -138,14 +138,16 @@ export const useFarmWallet = () => {
     depositWithReferral: async (
       jettonAmount: number,
       referrerAddress: string
-    ) =>
-      await sendDepositWithReferral(
+    ) => {
+      console.log("referrer address", referrerAddress);
+      return await sendDepositWithReferral(
         jettonWallet,
         Address.parse(userAddress),
         sender,
         jettonAmount,
         Address.parse(referrerAddress)
-      ),
+      );
+    },
 
     compound: async () => await sendCompound(farmWallet, sender),
 
@@ -165,12 +167,12 @@ const sendStake = async (
   try {
     return await jettonWallet.sendTransfer(
       via,
-      toNano("0.05"),
+      toNano("0.1"),
       toNano(jettonAmount),
       notcoinFarmFactoryAddress,
       userAddress,
       new Cell(),
-      toNano("0.005"),
+      toNano("0.05"),
       new Cell()
     );
   } catch (err) {
@@ -189,12 +191,12 @@ const sendDepositWithReferral = async (
   try {
     return await jettonWallet.sendTransfer(
       via,
-      toNano("0.05"),
+      toNano("0.1"),
       toNano(jettonAmount),
       notcoinFarmFactoryAddress,
       userAddress,
       new Cell(),
-      toNano("0.005"),
+      toNano("0.05"),
       beginCell().storeAddress(referrerAddress).endCell()
     );
   } catch (err) {
