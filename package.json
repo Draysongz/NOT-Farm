@@ -20,6 +20,7 @@
     "@ton/crypto": "^3.2.0",
     "@ton/ton": "^13.11.1",
     "@tonconnect/ui-react": "^2.0.2",
+    "axios": "^1.7.2",
     "firebase": "^10.12.1",
     "framer-motion": "^11.1.7",
     "js-cookie": "^3.0.5",

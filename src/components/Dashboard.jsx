@@ -30,8 +30,9 @@ import { PiCopy } from "react-icons/pi";
 import { useFarmFactory } from "@/hooks/useFarmFactory";
 import { useFarmWallet } from "@/hooks/useFarmWallet";
 import { fromNano } from "@ton/core";
+import axios from 'axios'
 import { useRouter } from "next/router";
-const Dashboard = ({ isCollapsed }) => {
+const Dashboard = ({ isCollapsed, priceInUsd }) => {
   const router = useRouter();
   const { referralId } = router.query;
   const { totalValueLocked, farmWalletStatus } = useFarmFactory();
@@ -46,7 +47,29 @@ const Dashboard = ({ isCollapsed }) => {
   } = useFarmWallet();
 
   const [depositAmount, setDepositAmount] = useState(0);
+  const [priceInUsd, setPriceInUsd] = useState(0)
 
+
+
+  const fetchNotPrice = async ()=>{
+    try {
+        const response = await axios.get('https://api.dexscreener.com/latest/dex/tokens/EQAvlWFDxGF2lXm67y4yzC17wYKD9A0guwPkMs1gOsM__NOT');
+    const notcoinData = response.data;
+    console.log(notcoinData)
+
+    // Assuming the price is available in the data structure
+    if (notcoinData && notcoinData.pairs && notcoinData.pairs.length > 0) {
+      priceInUsd = notcoinData.pairs[0].priceUsd;
+      setPriceInUsd(priceInUsd)
+    }
+  } catch (error) {
+    console.error('Error fetching NotCoin price:', error.message);
+  }
+  }
+
+  useEffect(()=>{
+    fetchNotPrice()
+  }, [])
   useEffect(() => {
     const base_url = location.origin;
     console.log(base_url, referralId);
@@ -326,7 +349,6 @@ const Dashboard = ({ isCollapsed }) => {
                         color="white"
                         boxShadow="0px 4px 10px rgba(56, 206, 220, 0.5)"
                         _hover={{ backgroundColor: "#32b9c4" }}
-                        isDisabled
                         onClick={() => claimRewards()}
                       >
                         CLAIM REWARDS
@@ -431,5 +453,7 @@ const Dashboard = ({ isCollapsed }) => {
     </Flex>
   );
 };
+
+
 
 export default Dashboard;
