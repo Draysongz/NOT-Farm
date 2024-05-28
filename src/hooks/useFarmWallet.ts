@@ -106,7 +106,7 @@ export const useFarmWallet = () => {
   }, [client, farmWallet, jettonWallet]);
 
   useEffect(() => {
-    (async () => {
+    const getUserBalance = async () => {
       if (!client) return;
       if (!farmWallet) return;
       try {
@@ -117,7 +117,12 @@ export const useFarmWallet = () => {
       } catch (err) {
         console.log(err.message);
       }
-    })();
+      await sleep(8000);
+      getUserBalance();
+    };
+    getUserBalance();
+
+    return () => {};
   }, [client, farmWallet]);
 
   return {

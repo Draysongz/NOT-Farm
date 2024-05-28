@@ -67,7 +67,7 @@ export const useFarmFactory = () => {
   }, [farmWallet, client]);
 
   useEffect(() => {
-    (async () => {
+    const getTVL = async () => {
       if (!client) return;
       if (!farmFactory) return;
       try {
@@ -76,8 +76,10 @@ export const useFarmFactory = () => {
       } catch (err) {
         console.log(err.message);
       }
-    })();
-
+      await sleep(9000);
+      getTVL();
+    };
+    getTVL();
     return () => {};
   }, [totalValueLocked, farmFactory, client]);
 
