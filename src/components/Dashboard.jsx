@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardBody,
@@ -30,21 +30,27 @@ import { PiCopy } from "react-icons/pi";
 import { useFarmFactory } from "@/hooks/useFarmFactory";
 import { useFarmWallet } from "@/hooks/useFarmWallet";
 import { fromNano } from "@ton/core";
-
+import { useRouter } from "next/router";
 const Dashboard = ({ isCollapsed }) => {
-  const { initializeFarmContract, totalValueLocked, farmWalletStatus } =
-    useFarmFactory();
+  const router = useRouter();
+  const { referralId } = router.query;
+  const { totalValueLocked, farmWalletStatus } = useFarmFactory();
   const {
     userStakedBalance,
     userWalletBalance,
     currRewards,
     stake,
-    unstake,
+    depositWithReferral,
     compound,
     claimRewards,
   } = useFarmWallet();
 
   const [depositAmount, setDepositAmount] = useState(0);
+
+  useEffect(() => {
+    const base_url = location.origin;
+    console.log(base_url, referralId);
+  }, [referralId]);
   return (
     <Flex
       direction={"column"}
@@ -98,10 +104,10 @@ const Dashboard = ({ isCollapsed }) => {
 
               <Flex direction={"column"}>
                 <Text color={"#cea638"} fontSize={"small"}>
-                   Your NotMiner
+                  Your NotMiner
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
-                  0 NOTM
+                  {Number(fromNano(userStakedBalance)).toFixed(2)} NOTM
                 </Text>
               </Flex>
             </Flex>
@@ -166,7 +172,7 @@ const Dashboard = ({ isCollapsed }) => {
                   TVL{" "}
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
-                  {fromNano(totalValueLocked)} NOT
+                  {Number(fromNano(totalValueLocked)).toFixed(2)} NOT
                 </Text>
               </Flex>
             </Flex>
@@ -206,7 +212,11 @@ const Dashboard = ({ isCollapsed }) => {
         </Card>
       </Flex>
 
-      <Flex mt={5} direction={"column"} mb={useBreakpointValue({base: '20%', md:'0%', lg: '0%'})}>
+      <Flex
+        mt={5}
+        direction={"column"}
+        mb={useBreakpointValue({ base: "20%", md: "0%", lg: "0%" })}
+      >
         <Card
           bg={"#282828"}
           color={"white"}
@@ -252,40 +262,76 @@ const Dashboard = ({ isCollapsed }) => {
                         color="white"
                         boxShadow="0px 4px 10px rgba(56, 206, 220, 0.5)"
                         _hover={{ backgroundColor: "#32b9c4" }}
-                        onClick={() => stake(depositAmount)}
+                        onClick={() =>
+                          referralId
+                            ? depositWithReferral(depositAmount, referralId)
+                            : stake(depositAmount)
+                        }
                       >
                         Buy Now
                       </Button>
                     </Flex>
                   </Flex>
                 </TabPanel>
-                
+
                 <TabPanel>
-                 <Flex direction={'column'} justifyContent={'center'} bg={'black'} p={5} borderRadius={'10px'} border={"2px solid #ffc63c"}>
-                  <Flex direction={'column'} >
-                    <Text>REWARD</Text>
-
-                    <Flex direction={'column'} alignSelf={'end'}>
-                      <Text>~0.0000</Text>
-                      <Text align={'right'}>NOT</Text>
+                  <Flex
+                    direction={"column"}
+                    justifyContent={"center"}
+                    bg={"black"}
+                    p={5}
+                    borderRadius={"10px"}
+                    border={"2px solid #ffc63c"}
+                  >
+                    <Flex direction={"row"} gap={5} justify={"right"}>
+                      <Text>REWARD</Text>~
+                      <Box>
+                        <Text>
+                          {Number(fromNano(currRewards)).toFixed(5)} NOT
+                        </Text>
+                      </Box>
                     </Flex>
-                  </Flex>
 
-                  <Flex mt={useBreakpointValue({base: '7%', md: '6%', lg: '6%'})} alignSelf={useBreakpointValue({base: 'center', md: 'end', lg: 'end'})} gap={3}  direction={useBreakpointValue({base: 'column', md: 'row', lg: 'row'})}>
-                    <Button   backgroundColor="#38cedc"
+                    <Flex
+                      mt={useBreakpointValue({
+                        base: "7%",
+                        md: "6%",
+                        lg: "6%",
+                      })}
+                      alignSelf={useBreakpointValue({
+                        base: "center",
+                        md: "end",
+                        lg: "end",
+                      })}
+                      gap={3}
+                      direction={useBreakpointValue({
+                        base: "column",
+                        md: "row",
+                        lg: "row",
+                      })}
+                    >
+                      <Button
+                        backgroundColor="#38cedc"
                         color="white"
                         boxShadow="0px 4px 10px rgba(56, 206, 220, 0.5)"
                         _hover={{ backgroundColor: "#32b9c4" }}
-                        >COMPOUND</Button>
-                        
-                    <Button backgroundColor="#38cedc"
+                        onClick={() => compound()}
+                      >
+                        COMPOUND
+                      </Button>
+
+                      <Button
+                        backgroundColor="#38cedc"
                         color="white"
                         boxShadow="0px 4px 10px rgba(56, 206, 220, 0.5)"
-                        _hover={{ backgroundColor: "#32b9c4" }}>CLAIM REWARDS</Button>
+                        _hover={{ backgroundColor: "#32b9c4" }}
+                        onClick={() => claimRewards()}
+                      >
+                        CLAIM REWARDS
+                      </Button>
+                    </Flex>
                   </Flex>
-                </Flex>
                 </TabPanel>
-               
               </TabPanels>
             </Tabs>
           </CardBody>

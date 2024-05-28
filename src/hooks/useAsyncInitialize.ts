@@ -9,7 +9,7 @@ export function useAsyncInitialze<T>(func: () => Promise<T>, deps: any[] = []) {
       try {
         setState(await func());
       } catch (err) {
-        console.log(err);
+        console.log(err.message);
       }
     })();
 

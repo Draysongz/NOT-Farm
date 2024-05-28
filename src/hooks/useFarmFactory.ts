@@ -40,7 +40,7 @@ export const useFarmFactory = () => {
     try {
       return await getUserFarmWalletAddr(client, Address.parse(userAddress));
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
     }
   }, [client, userAddress]);
 
@@ -58,7 +58,7 @@ export const useFarmFactory = () => {
         const { status } = await farmWallet.getFarmWalletData();
         setFarmWalletStatus(status);
       } catch (err) {
-        console.log(err);
+        console.log(err.message);
       }
     };
     getStatus();
@@ -74,7 +74,7 @@ export const useFarmFactory = () => {
         const { totalDepositBalance } = await farmFactory.getFactoryData();
         setTotalValueLocked(totalDepositBalance);
       } catch (err) {
-        console.log(err);
+        console.log(err.message);
       }
     })();
 
