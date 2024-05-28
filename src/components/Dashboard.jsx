@@ -172,7 +172,8 @@ const Dashboard = ({ isCollapsed }) => {
                   TVL{" "}
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
-                  {Number(fromNano(totalValueLocked)).toFixed(2)} NOT
+                  307,240 NOT
+                  {/* current tvl as at this time {Number(fromNano(totalValueLocked)).toFixed(2)} NOT */}
                 </Text>
               </Flex>
             </Flex>
