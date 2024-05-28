@@ -26,11 +26,11 @@ abstract class Op {
 }
 
 const testAddrJettonMinter = Address.parse(
-  "EQBF-Uf-wl8ZW_Kq0WoTGJP87CDSU6IJvn5KaF6k6pBaG47W"
+  "EQAvlWFDxGF2lXm67y4yzC17wYKD9A0guwPkMs1gOsM__NOT"
 );
 
 const notcoinFarmFactoryAddress = Address.parse(
-  "EQDcbL4bzR_ox5H2ScO4KVqN2cYoESktNrxRmcuXnU5GPk87"
+  "EQAJOCaJ3IFYoDTwYsnFllQXe5LbC4epVQhPjZ09kiFlVsfP"
 );
 // open farm factory contract
 function openFarmFactory(provider: TonClient) {
