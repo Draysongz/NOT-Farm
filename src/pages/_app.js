@@ -10,7 +10,7 @@ import { ToastContainer} from 'react-toastify';
 
 
 const manifestUrl =
-  "https://rose-gothic-goose-655.mypinata.cloud/ipfs/QmXZoJcQqFTFyo4VadNdU6b3eNkhqv2VrTTYGGqjAvq6Sr";
+  "https://raw.githubusercontent.com/Draysongz/NOT-Farm/main/public/manifest.json";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -18,7 +18,6 @@ export default function App({ Component, pageProps }) {
      <TonConnectUIProvider manifestUrl={manifestUrl}>
       
       <ChakraProvider>
-        {" "}
         <Component {...pageProps} />
         <ToastContainer />
       </ChakraProvider>
