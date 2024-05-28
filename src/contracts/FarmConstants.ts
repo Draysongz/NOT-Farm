@@ -14,11 +14,13 @@ abstract class Op {
   static compound = 400;
   static compound_notification = 501;
   static withdraw_token = 600;
-  static withdraw_excess_ton = 900;
+  static withdraw_excess_ton = 990;
   static sent_data = 991;
+  static withdraw_deposits = 981;
   static initialize_contract = 130;
   static update_factory_jetton_addr = 144;
   static update_factory_data = 145;
+  static compound_and_claim_rewards = 1002;
 }
 
 const testAddrJettonMinter = Address.parse(
@@ -26,7 +28,7 @@ const testAddrJettonMinter = Address.parse(
 );
 
 const notcoinFarmFactoryAddress = Address.parse(
-  "EQA_2Q7pQ3y4maUWE6vGTP9cOaBKq4dEfIHHfSGpt0Oy-u4i"
+  "EQC8rpm9NlIwxIuLbheUMmQRu_EFhD0wcgSm_EisxnOv4zia"
 );
 // open farm factory contract
 function openFarmFactory(provider: TonClient) {

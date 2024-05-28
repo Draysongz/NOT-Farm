@@ -106,6 +106,92 @@ export class NotcoinFarmFactory implements Contract {
     });
   }
 
+  async sendWithdrawTotalDeposits(
+    provider: ContractProvider,
+    via: Sender,
+    value: bigint,
+    toAddr: Address
+  ) {
+    await provider.internal(via, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell()
+        .storeUint(Op.withdraw_deposits, 32)
+        .storeAddress(toAddr)
+        .storeUint(1, 32)
+        .endCell(),
+    });
+  }
+
+  async sendWithdrawDevFee(
+    provider: ContractProvider,
+    via: Sender,
+    value: bigint,
+    toAddr: Address
+  ) {
+    await provider.internal(via, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell()
+        .storeUint(Op.withdraw_deposits, 32)
+        .storeAddress(toAddr)
+        .storeUint(2, 32)
+        .endCell(),
+    });
+  }
+
+  async sendWithdrawFromPool(
+    provider: ContractProvider,
+    via: Sender,
+    value: bigint,
+    toAddr: Address,
+    amount: bigint
+  ) {
+    await provider.internal(via, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell()
+        .storeUint(Op.withdraw_deposits, 32)
+        .storeAddress(toAddr)
+        .storeUint(3, 32)
+        .storeCoins(amount)
+        .endCell(),
+    });
+  }
+
+  async sendWithdrawPool(
+    provider: ContractProvider,
+    via: Sender,
+    value: bigint,
+    toAddr: Address
+  ) {
+    await provider.internal(via, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell()
+        .storeUint(Op.withdraw_deposits, 32)
+        .storeAddress(toAddr)
+        .storeUint(4, 32)
+        .endCell(),
+    });
+  }
+
+  async sendWithdrawExcessTon(
+    provider: ContractProvider,
+    via: Sender,
+    value: bigint,
+    amount: bigint
+  ) {
+    await provider.internal(via, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: beginCell()
+        .storeUint(Op.withdraw_excess_ton, 32)
+        .storeCoins(amount)
+        .endCell(),
+    });
+  }
+
   async getUserNotcoinFarmWalletAddress(
     provider: ContractProvider,
     address: Address

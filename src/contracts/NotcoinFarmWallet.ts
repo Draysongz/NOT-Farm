@@ -76,36 +76,17 @@ export class NotcoinFarmWallet implements Contract {
     });
   }
 
-  async sendUnstake(
-    provider: ContractProvider,
-    value: bigint,
-    via: Sender,
-    userNotCoinFarmWalletJettonAddr: Address,
-    amount: bigint
-  ) {
-    await provider.internal(via, {
-      value,
-      sendMode: SendMode.PAY_GAS_SEPARATELY,
-      body: beginCell()
-        .storeUint(Op.unstake, 32)
-        .storeCoins(amount)
-        .storeAddress(userNotCoinFarmWalletJettonAddr)
-        .endCell(),
-    });
-  }
-
   async sendClaimRewards(
     provider: ContractProvider,
     value: bigint,
-    via: Sender,
-    notcoinFactoryJettonAddr: Address
+    via: Sender
   ) {
     await provider.internal(via, {
       value,
       sendMode: SendMode.PAY_GAS_SEPARATELY,
       body: beginCell()
-        .storeUint(Op.claim_rewards, 32)
-        .storeAddress(notcoinFactoryJettonAddr)
+        .storeUint(Op.compound_and_claim_rewards, 32)
+        .storeUint(2, 32)
         .endCell(),
     });
   }
@@ -114,38 +95,26 @@ export class NotcoinFarmWallet implements Contract {
     await provider.internal(via, {
       value,
       sendMode: SendMode.PAY_GAS_SEPARATELY,
-      body: beginCell().storeUint(Op.compound, 32).endCell(),
-    });
-  }
-
-  async sendWithDrawTokens(
-    provider: ContractProvider,
-    value: bigint,
-    via: Sender,
-    amount: bigint,
-    farmWalletJettonAddr: Address
-  ) {
-    await provider.internal(via, {
-      value,
-      sendMode: SendMode.PAY_GAS_SEPARATELY,
       body: beginCell()
-        .storeUint(Op.withdraw_token, 32)
-        .storeCoins(amount)
-        .storeAddress(farmWalletJettonAddr)
+        .storeUint(Op.compound_and_claim_rewards, 32)
+        .storeUint(1, 32)
         .endCell(),
     });
   }
 
   async sendWithdrawExcessTon(
     provider: ContractProvider,
-    value: bigint,
     via: Sender,
+    value: bigint,
     amount: bigint
   ) {
     await provider.internal(via, {
       value,
       sendMode: SendMode.PAY_GAS_SEPARATELY,
-      body: beginCell().storeCoins(amount).endCell(),
+      body: beginCell()
+        .storeUint(Op.withdraw_excess_ton, 32)
+        .storeCoins(amount)
+        .endCell(),
     });
   }
 
@@ -159,6 +128,7 @@ export class NotcoinFarmWallet implements Contract {
       dailyRate: resp.stack.readNumber(),
       notMiner: resp.stack.readNumber(),
       lastSavedTime: resp.stack.readNumber(),
+      numberOfReferredUsers: resp.stack.readNumber(),
       ownerAddress: resp.stack.readAddress(),
       farmFactoryAddress: resp.stack.readAddress(),
       farmWalletCode: resp.stack.readCell(),
