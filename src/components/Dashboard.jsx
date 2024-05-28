@@ -32,7 +32,7 @@ import { useFarmWallet } from "@/hooks/useFarmWallet";
 import { fromNano } from "@ton/core";
 import axios from 'axios'
 import { useRouter } from "next/router";
-const Dashboard = ({ isCollapsed, priceInUsd }) => {
+const Dashboard = ({ isCollapsed}) => {
   const router = useRouter();
   const { referralId } = router.query;
   const { totalValueLocked, farmWalletStatus } = useFarmFactory();
@@ -59,7 +59,7 @@ const Dashboard = ({ isCollapsed, priceInUsd }) => {
 
     // Assuming the price is available in the data structure
     if (notcoinData && notcoinData.pairs && notcoinData.pairs.length > 0) {
-      priceInUsd = notcoinData.pairs[0].priceUsd;
+      const priceInUsd = notcoinData.pairs[0].priceUsd;
       setPriceInUsd(priceInUsd)
     }
   } catch (error) {
