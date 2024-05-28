@@ -325,6 +325,7 @@ const Dashboard = ({ isCollapsed }) => {
                         color="white"
                         boxShadow="0px 4px 10px rgba(56, 206, 220, 0.5)"
                         _hover={{ backgroundColor: "#32b9c4" }}
+                        isDisabled
                         onClick={() => claimRewards()}
                       >
                         CLAIM REWARDS
