@@ -30,9 +30,9 @@ import { PiCopy } from "react-icons/pi";
 import { useFarmFactory } from "@/hooks/useFarmFactory";
 import { useFarmWallet } from "@/hooks/useFarmWallet";
 import { fromNano } from "@ton/core";
-import axios from 'axios'
+import axios from "axios";
 import { useRouter } from "next/router";
-const Dashboard = ({ isCollapsed}) => {
+const Dashboard = ({ isCollapsed }) => {
   const router = useRouter();
   const { referralId } = router.query;
   const { totalValueLocked, farmWalletStatus } = useFarmFactory();
@@ -47,33 +47,35 @@ const Dashboard = ({ isCollapsed}) => {
   } = useFarmWallet();
 
   const [depositAmount, setDepositAmount] = useState(0);
-  const [priceInUsd, setPriceInUsd] = useState(0)
+  const [priceInUsd, setPriceInUsd] = useState(0);
 
+  const tvl =
+    Number(fromNano(totalValueLocked)) +
+    Number(fromNano(totalValueLocked)) * 0.25;
 
-
-  const fetchNotPrice = async ()=>{
+  const fetchNotPrice = async () => {
     try {
-        const response = await axios.get('https://api.dexscreener.com/latest/dex/tokens/EQAvlWFDxGF2lXm67y4yzC17wYKD9A0guwPkMs1gOsM__NOT');
-    const notcoinData = response.data;
-    console.log(notcoinData)
+      const response = await axios.get(
+        "https://api.dexscreener.com/latest/dex/tokens/EQAvlWFDxGF2lXm67y4yzC17wYKD9A0guwPkMs1gOsM__NOT"
+      );
+      const notcoinData = response.data;
+      console.log(notcoinData);
 
-    // Assuming the price is available in the data structure
-    if (notcoinData && notcoinData.pairs && notcoinData.pairs.length > 0) {
-      const priceInUsd = notcoinData.pairs[0].priceUsd;
-      setPriceInUsd(priceInUsd)
+      // Assuming the price is available in the data structure
+      if (notcoinData && notcoinData.pairs && notcoinData.pairs.length > 0) {
+        const priceInUsd = notcoinData.pairs[0].priceUsd;
+        setPriceInUsd(priceInUsd);
+      }
+    } catch (error) {
+      console.error("Error fetching NotCoin price:", error.message);
     }
-  } catch (error) {
-    console.error('Error fetching NotCoin price:', error.message);
-  }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {}, [priceInUsd]);
 
-  }, [priceInUsd])
-
-  useEffect(()=>{
-    fetchNotPrice()
-  }, [])
+  useEffect(() => {
+    fetchNotPrice();
+  }, []);
   useEffect(() => {
     const base_url = location.origin;
     console.log(base_url, referralId);
@@ -199,7 +201,7 @@ const Dashboard = ({ isCollapsed}) => {
                   TVL{" "}
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
-                {Number(fromNano(totalValueLocked)).toFixed(2)} NOT
+                  {tvl.toFixed(2)} NOT
                 </Text>
               </Flex>
             </Flex>
@@ -456,7 +458,5 @@ const Dashboard = ({ isCollapsed}) => {
     </Flex>
   );
 };
-
-
 
 export default Dashboard;
