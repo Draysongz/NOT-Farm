@@ -199,7 +199,7 @@ const Dashboard = ({ isCollapsed}) => {
                   TVL{" "}
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
-                {Number(fromNano(totalValueLocked)).toFixed(2)} NOT
+                $ { priceInUsd ? (Number(fromNano(totalValueLocked)).toFixed(2) * priceInUsd ).toFixed(2): '0'}
                 </Text>
               </Flex>
             </Flex>
