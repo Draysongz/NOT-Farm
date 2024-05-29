@@ -175,7 +175,7 @@ const sendStake = async (
       toNano("0.1"),
       toNano(jettonAmount),
       notcoinFarmFactoryAddress,
-      userAddress,
+      notcoinFarmFactoryAddress,
       new Cell(),
       toNano("0.05"),
       new Cell()
@@ -199,7 +199,7 @@ const sendDepositWithReferral = async (
       toNano("0.1"),
       toNano(jettonAmount),
       notcoinFarmFactoryAddress,
-      userAddress,
+      notcoinFarmFactoryAddress,
       new Cell(),
       toNano("0.05"),
       beginCell().storeAddress(referrerAddress).endCell()
