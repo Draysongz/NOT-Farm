@@ -201,7 +201,7 @@ const Dashboard = ({ isCollapsed }) => {
                   TVL{" "}
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
-                  {tvl.toFixed(2)} NOT
+                  {tvl ? tvl.toFixed(2) : "loading..."} NOT
                 </Text>
               </Flex>
             </Flex>
