@@ -201,7 +201,12 @@ const Dashboard = ({ isCollapsed }) => {
                   TVL{" "}
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
-                  {tvl ? tvl.toFixed(2) : "loading..."} NOT
+                  ${" "}
+                  {tvl
+                    ? priceInUsd
+                      ? (tvl.toFixed(2) * priceInUsd).toFixed(2)
+                      : "0"
+                    : "loading..."}
                 </Text>
               </Flex>
             </Flex>
