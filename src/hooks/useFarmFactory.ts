@@ -71,7 +71,8 @@ export const useFarmFactory = () => {
       if (!client) return;
       if (!farmFactory) return;
       try {
-        const { totalDepositBalance } = await farmFactory.getFactoryData();
+        const { totalDepositBalance, pool } =
+          await farmFactory.getFactoryData();
         setTotalValueLocked(totalDepositBalance);
       } catch (err) {
         console.log(err.message);
