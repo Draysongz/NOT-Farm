@@ -51,6 +51,8 @@ const Dashboard = ({ isCollapsed }) => {
 
   const tvl = Number(fromNano(totalValueLocked));
 
+  const actualValue = poolValue > 0 ? Number(fromNano(poolValue)) - 9460 : 0;
+
   const fetchNotPrice = async () => {
     try {
       const response = await axios.get(
@@ -200,9 +202,9 @@ const Dashboard = ({ isCollapsed }) => {
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
                   ${" "}
-                  {tvl
+                  {poolValue
                     ? priceInUsd
-                      ? (tvl.toFixed(2) * priceInUsd).toFixed(2)
+                      ? (actualValue.toFixed(2) * priceInUsd).toFixed(2)
                       : "0"
                     : "loading..."}
                   {/* {tvl} */}
