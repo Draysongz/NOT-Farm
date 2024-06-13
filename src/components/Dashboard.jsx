@@ -35,7 +35,7 @@ import { useRouter } from "next/router";
 const Dashboard = ({ isCollapsed }) => {
   const router = useRouter();
   const { referralId } = router.query;
-  const { totalValueLocked, farmWalletStatus } = useFarmFactory();
+  const { totalValueLocked, poolValue, farmWalletStatus } = useFarmFactory();
   const {
     userStakedBalance,
     userWalletBalance,
@@ -200,12 +200,12 @@ const Dashboard = ({ isCollapsed }) => {
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
                   ${" "}
-                  {/* {tvl
+                  {tvl
                     ? priceInUsd
                       ? (tvl.toFixed(2) * priceInUsd).toFixed(2)
                       : "0"
-                    : "loading..."} */}
-                  {4000}
+                    : "loading..."}
+                  {/* {tvl} */}
                 </Text>
               </Flex>
             </Flex>
