@@ -30,7 +30,7 @@ const testAddrJettonMinter = Address.parse(
 );
 
 const notcoinFarmFactoryAddress = Address.parse(
-  "EQAJOCaJ3IFYoDTwYsnFllQXe5LbC4epVQhPjZ09kiFlVsfP"
+  "EQCqeal1pgMSuZM2TO6YPc76YRM11CLS8DP3X6hBsi6SKez_"
 );
 // open farm factory contract
 function openFarmFactory(provider: TonClient) {
