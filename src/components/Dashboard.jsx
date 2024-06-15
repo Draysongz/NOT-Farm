@@ -202,9 +202,9 @@ const Dashboard = ({ isCollapsed }) => {
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
                   ${" "}
-                  {poolValue
+                  {tvl
                     ? priceInUsd
-                      ? (actualValue.toFixed(2) * priceInUsd).toFixed(2)
+                      ? (tvl.toFixed(2) * priceInUsd).toFixed(2)
                       : "0"
                     : "loading..."}
                   {/* {tvl} */}
