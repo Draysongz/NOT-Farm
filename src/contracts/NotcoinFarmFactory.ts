@@ -197,6 +197,7 @@ export class NotcoinFarmFactory implements Contract {
   async getFactoryData(provider: ContractProvider) {
     const resp = await provider.get("get_factory_data", []);
     return {
+      jetton_balance: resp.stack.readNumber(),
       totalDepositBalance: resp.stack.readNumber(),
       pool: resp.stack.readNumber(),
       status: resp.stack.readNumber(),
@@ -205,6 +206,7 @@ export class NotcoinFarmFactory implements Contract {
       dailyRate: resp.stack.readNumber(),
       adminAddress: resp.stack.readAddress(),
       coAdminAddress: resp.stack.readAddress(),
+      feeAddress: resp.stack.readAddress(),
       farmWalletCode: resp.stack.readCell(),
       additionalData: resp.stack.readCell(),
     };
