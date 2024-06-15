@@ -20,6 +20,7 @@ import {
 } from "@ton/core";
 import { JettonWallet } from "@/contracts/JettonWallet";
 import { NotcoinFarmWallet } from "@/contracts/NotcoinFarmWallet";
+import { useFarmFactory } from "./useFarmFactory";
 
 export const useFarmWallet = () => {
   const client = useTonClient();
@@ -28,6 +29,10 @@ export const useFarmWallet = () => {
   const [userWalletBalance, setUserWalletBalance] = useState(0);
   const [currRewards, setCurrRewards] = useState(0);
   const [referredUsers, setNumberOfReferredUsers] = useState(0);
+
+  const { poolValue } = useFarmFactory();
+  const actualValue = poolValue > 0 ? poolValue - 10460 : 0;
+
   const sleep = async (time: number) =>
     new Promise((resolve) => setTimeout(resolve, time));
   // stake, compound, claim rewards, unstake, get staked balance, get rewards
@@ -157,7 +162,13 @@ export const useFarmWallet = () => {
     compound: async () => await sendCompound(farmWallet, sender),
 
     claimRewards: async () =>
-      await sendClaimRewards(farmWallet, factoryJettonWalletAddr, sender),
+      await sendClaimRewards(
+        farmWallet,
+        factoryJettonWalletAddr,
+        sender,
+        currRewards,
+        actualValue
+      ),
   };
 };
 
@@ -225,9 +236,14 @@ const sendCompound = async (
 const sendClaimRewards = async (
   farmWallet: OpenedContract<NotcoinFarmWallet>,
   factoryjettonWalletAddr: Address,
-  via: Sender
+  via: Sender,
+  currRewards: number,
+  actualValue: number
 ) => {
   try {
+    if (currRewards == 0) return console.log("empty 1");
+    if (actualValue == 0) return console.log("empty");
+    if (currRewards > actualValue) return console.log("nothing to claim");
     return await farmWallet.sendClaimRewards(toNano("0.1"), via);
   } catch (err) {
     console.log(err.message);
