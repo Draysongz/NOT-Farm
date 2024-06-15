@@ -49,9 +49,7 @@ const Dashboard = ({ isCollapsed }) => {
   const [depositAmount, setDepositAmount] = useState(0);
   const [priceInUsd, setPriceInUsd] = useState(0);
 
-  const tvl =
-    Number(fromNano(totalValueLocked)) +
-    Number(fromNano(totalValueLocked)) * 0.25;
+  const tvl = Number(fromNano(totalValueLocked));
 
   const fetchNotPrice = async () => {
     try {
@@ -202,11 +200,12 @@ const Dashboard = ({ isCollapsed }) => {
                 </Text>
                 <Text fontWeight={"700"} color={"white"}>
                   ${" "}
-                  {tvl
+                  {/* {tvl
                     ? priceInUsd
                       ? (tvl.toFixed(2) * priceInUsd).toFixed(2)
                       : "0"
-                    : "loading..."}
+                    : "loading..."} */}
+                  {tvl}
                 </Text>
               </Flex>
             </Flex>
