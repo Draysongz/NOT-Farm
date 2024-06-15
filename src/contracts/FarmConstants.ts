@@ -51,8 +51,9 @@ async function getUserFarmWalletAddr(
   const notcoinFarmFactory = openFarmFactory(provider);
 
   try {
-    const farmWalletAddress =
-      await notcoinFarmFactory.getUserNotcoinFarmWalletAddress(userAddress);
+    const farmWalletAddress = await notcoinFarmFactory.getFarmWalletAddress(
+      userAddress
+    );
     return farmWalletAddress;
   } catch (err) {
     console.log(err);

@@ -14,6 +14,7 @@ import { Op } from "./FarmConstants";
 export type NotcoinFarmFactoryConfig = {
   adminAddress: Address;
   coAdminAddress: Address;
+  feeAddress: Address;
   notcoinFarmWalletCode: Cell;
 };
 
@@ -32,6 +33,7 @@ export function notcoinFarmFactoryConfigToCell(
   config: NotcoinFarmFactoryConfig
 ): Cell {
   return beginCell()
+    .storeCoins(0) // jetton balance
     .storeCoins(0) // total deposited balance
     .storeCoins(0) // pool
     .storeInt(0, 4) // status
@@ -40,6 +42,7 @@ export function notcoinFarmFactoryConfigToCell(
     .storeUint(0, 32) // daily rate
     .storeAddress(config.adminAddress)
     .storeAddress(config.coAdminAddress)
+    .storeAddress(config.feeAddress)
     .storeRef(config.notcoinFarmWalletCode)
     .storeRef(beginCell().endCell())
     .endCell();
@@ -107,41 +110,7 @@ export class NotcoinFarmFactory implements Contract {
     });
   }
 
-  async sendWithdrawTotalDeposits(
-    provider: ContractProvider,
-    via: Sender,
-    value: bigint,
-    toAddr: Address
-  ) {
-    await provider.internal(via, {
-      value,
-      sendMode: SendMode.PAY_GAS_SEPARATELY,
-      body: beginCell()
-        .storeUint(Op.withdraw_deposits, 32)
-        .storeAddress(toAddr)
-        .storeUint(1, 32)
-        .endCell(),
-    });
-  }
-
-  async sendWithdrawDevFee(
-    provider: ContractProvider,
-    via: Sender,
-    value: bigint,
-    toAddr: Address
-  ) {
-    await provider.internal(via, {
-      value,
-      sendMode: SendMode.PAY_GAS_SEPARATELY,
-      body: beginCell()
-        .storeUint(Op.withdraw_deposits, 32)
-        .storeAddress(toAddr)
-        .storeUint(2, 32)
-        .endCell(),
-    });
-  }
-
-  async sendWithdrawFromPool(
+  async sendWithdrawToken(
     provider: ContractProvider,
     via: Sender,
     value: bigint,
@@ -154,25 +123,7 @@ export class NotcoinFarmFactory implements Contract {
       body: beginCell()
         .storeUint(Op.withdraw_deposits, 32)
         .storeAddress(toAddr)
-        .storeUint(3, 32)
         .storeCoins(amount)
-        .endCell(),
-    });
-  }
-
-  async sendWithdrawPool(
-    provider: ContractProvider,
-    via: Sender,
-    value: bigint,
-    toAddr: Address
-  ) {
-    await provider.internal(via, {
-      value,
-      sendMode: SendMode.PAY_GAS_SEPARATELY,
-      body: beginCell()
-        .storeUint(Op.withdraw_deposits, 32)
-        .storeAddress(toAddr)
-        .storeUint(4, 32)
         .endCell(),
     });
   }
@@ -196,13 +147,19 @@ export class NotcoinFarmFactory implements Contract {
   async sendChangeAdmin(
     provider: ContractProvider,
     via: Sender,
-    newOwner: Address
+    options: {
+      adminAddress: Address;
+      coAdminAddress: Address;
+      feeAddress: Address;
+    }
   ) {
     await provider.internal(via, {
       sendMode: SendMode.PAY_GAS_SEPARATELY,
       body: beginCell()
         .storeUint(Op.change_admin, 32)
-        .storeAddress(newOwner)
+        .storeAddress(options.adminAddress)
+        .storeAddress(options.coAdminAddress)
+        .storeAddress(options.feeAddress)
         .endCell(),
       value: toNano("0.05"),
     });
@@ -223,14 +180,14 @@ export class NotcoinFarmFactory implements Contract {
     });
   }
 
-  async getUserNotcoinFarmWalletAddress(
+  async getFarmWalletAddress(
     provider: ContractProvider,
-    address: Address
+    ownerAddress: Address
   ): Promise<Address> {
     const resp = await provider.get("get_user_notcoin_farm_wallet_address", [
       {
         type: "slice",
-        cell: beginCell().storeAddress(address).endCell(),
+        cell: beginCell().storeAddress(ownerAddress).endCell(),
       },
     ]);
 
@@ -255,12 +212,12 @@ export class NotcoinFarmFactory implements Contract {
 }
 
 // int total_deposit_balance,
-// int factory_pool,
-// int status,
-// int notMinerRate,
-// int devFee,
-// int dailyRate,
-// slice admin_address,
-// slice co_admin_address,
-// cell notcoin_farm_wallet_code,
-// cell additional_data
+//         int factory_pool,
+//         int status,
+//         int notMinerRate,
+//         int devFee,
+//         int dailyRate,
+//         slice admin_address,
+//         slice co_admin_address,
+//         cell notcoin_farm_wallet_code,
+//         cell additional_data
