@@ -20,6 +20,7 @@ export const useFarmFactory = () => {
 
   const [totalValueLocked, setTotalValueLocked] = useState(0);
   const [farmWalletStatus, setFarmWalletStatus] = useState(0);
+  const [poolValue, setPoolValue] = useState(0);
   const sleep = async (time: number) =>
     new Promise((resolve) => setTimeout(resolve, time));
   // first thing I need to do to be able to stake is
@@ -71,8 +72,10 @@ export const useFarmFactory = () => {
       if (!client) return;
       if (!farmFactory) return;
       try {
-        const { totalDepositBalance } = await farmFactory.getFactoryData();
+        const { totalDepositBalance, pool } =
+          await farmFactory.getFactoryData();
         setTotalValueLocked(totalDepositBalance);
+        setPoolValue(pool);
       } catch (err) {
         console.log(err.message);
       }
@@ -85,6 +88,7 @@ export const useFarmFactory = () => {
 
   return {
     totalValueLocked,
+    poolValue,
     farmWalletStatus,
   };
 };

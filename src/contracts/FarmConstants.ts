@@ -30,7 +30,7 @@ const testAddrJettonMinter = Address.parse(
 );
 
 const notcoinFarmFactoryAddress = Address.parse(
-  "EQAJOCaJ3IFYoDTwYsnFllQXe5LbC4epVQhPjZ09kiFlVsfP"
+  "EQCuhflTJlRMOE-Eok4SnIx7Zo3P8_mAzurLJEFSIn0rZzsJ"
 );
 // open farm factory contract
 function openFarmFactory(provider: TonClient) {
@@ -51,8 +51,9 @@ async function getUserFarmWalletAddr(
   const notcoinFarmFactory = openFarmFactory(provider);
 
   try {
-    const farmWalletAddress =
-      await notcoinFarmFactory.getUserNotcoinFarmWalletAddress(userAddress);
+    const farmWalletAddress = await notcoinFarmFactory.getFarmWalletAddress(
+      userAddress
+    );
     return farmWalletAddress;
   } catch (err) {
     console.log(err);

@@ -35,7 +35,7 @@ import { useRouter } from "next/router";
 const Dashboard = ({ isCollapsed }) => {
   const router = useRouter();
   const { referralId } = router.query;
-  const { totalValueLocked, farmWalletStatus } = useFarmFactory();
+  const { totalValueLocked, poolValue, farmWalletStatus } = useFarmFactory();
   const {
     userStakedBalance,
     userWalletBalance,
@@ -49,9 +49,9 @@ const Dashboard = ({ isCollapsed }) => {
   const [depositAmount, setDepositAmount] = useState(0);
   const [priceInUsd, setPriceInUsd] = useState(0);
 
-  const tvl =
-    Number(fromNano(totalValueLocked)) +
-    Number(fromNano(totalValueLocked)) * 0.25;
+  const tvl = Number(fromNano(totalValueLocked));
+
+  const actualValue = poolValue > 0 ? Number(fromNano(poolValue)) - 9460 : 0;
 
   const fetchNotPrice = async () => {
     try {
