@@ -312,7 +312,7 @@ export default function Bana() {
       <Flex
       minH={'100vh'} 
       >
-<Sidebar />
+      <Sidebar />
 
 
       </Flex>
